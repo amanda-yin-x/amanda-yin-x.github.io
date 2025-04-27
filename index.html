@@ -160,12 +160,8 @@
 
 <body>
 
-<!-- Top background decoration -->
-<div style="position: relative; text-align: center;">
-  <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 300px; height: 150px; background: #ffe4ec; border-radius: 50% 50% 0 0; z-index: -1;"></div>
-  <h1>Portfolio.</h1>
-</div>
-
+<h1>Portfolio.</h1>
+  
 <blockquote>
   Wer schließlich die Welt schütteln wird, wird lange still bleiben; wer schließlich den Blitz entzündet, wird lange wie Wolken driften.  
   <br><i>– Friedrich Wilhelm Nietzsche</i>
@@ -207,70 +203,124 @@
 
 <div class="experience-grid">
 
-  <!-- StackAdapt -->
+  <!-- StackAdapt Card -->
   <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
+    <div class="flip-card-inner" style="background: #fff5e6;">
+      <div class="flip-card-front" style="background: #fff5e6;">
         <h3>StackAdapt (W25)</h3>
+        <img src="https://img.icons8.com/ios-filled/50/000000/domain.png" alt="StackAdapt Icon" style="width:40px; margin: 10px 0;">
         <p><strong>Role:</strong> SWE Intern</p>
+        <p><strong>Team:</strong> Platform Planning</p>
         <p><strong>Timeline:</strong> Jan 2025 – Apr 2025</p>
+        <p><strong>Location:</strong> Toronto, ON</p>
         <div class="tech-stack">
-          <code>React</code> <code>Redux</code> <code>Ruby on Rails</code> <code>GraphQL</code>
+          <code>React</code> <code>TypeScript</code> <code>Ruby on Rails</code> <code>GraphQL</code>
         </div>
       </div>
-      <div class="flip-card-back">
-        <ul>
-          <li>Built a geo-radius targeting feature for advertisers.</li>
-          <li>Developed frontend/backend components.</li>
-          <li>Improved targeting logic and system performance.</li>
-        </ul>
+      <div class="flip-card-back" style="background: #ffe4ec;">
+        <ul style="margin-top: 20px;">
+  <li>
+    Led the design and full-stack implementation of the geo-radius targeting feature for campaign forecast planning. 
+    Users can upload a CSV containing addresses and lat/lng coordinates with radii; the system validates inputs, 
+    calls spatial geocoding APIs to translate into geographic data, and renders results on a map with live error detection, editing, and deletion capabilities.
+  </li>
+  <li>
+    Developed backend processes that upload validated CSVs to an S3 bucket, trigger geocode API calls, translate to pseudo-zip codes, and attach results to forecast models for storage and retrieval.
+  </li>
+  <li>
+    Authored technical specifications, divided engineering tickets, organized estimations, and ran weekly design and progress syncs with cross-functional teams.
+  </li>
+  <li>
+    Hosted a Tech Tune-Up session on SOLID principles and React best practices to improve frontend engineering standards.
+  </li>
+</ul>
       </div>
     </div>
   </div>
 
-  <!-- Microsoft Redmond -->
+  <!-- Microsoft Redmond Card -->
   <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
+    <div class="flip-card-inner" style="background: #e6f0ff;">
+      <div class="flip-card-front" style="background: #e6f0ff;">
         <h3>Microsoft Redmond (S24)</h3>
+        <img src="https://img.icons8.com/ios-filled/50/000000/windows8.png" alt="Microsoft Icon" style="width:40px; margin: 10px 0;">
         <p><strong>Role:</strong> SWE and PM Intern</p>
+        <p><strong>Team:</strong> Outlook Enterprise Adoption Team</p>
         <p><strong>Timeline:</strong> May 2024 – Aug 2024</p>
+        <p><strong>Location:</strong> Redmond, WA</p>
         <div class="tech-stack">
-          <code>C#</code> <code>React</code> <code>Azure</code> <code>TypeScript</code>
+          <code>TypeScript</code> <code>React</code> <code>GraphQL</code> <code>Project Management</code>
         </div>
       </div>
-      <div class="flip-card-back">
-        <ul>
-          <li>Designed MRU app management feature for Outlook.</li>
-          <li>Worked across engineering and product teams.</li>
-          <li>Enhanced productivity features across platforms.</li>
-        </ul>
+      <div class="flip-card-back" style="background: #f3e8ff;">
+        <ul style="margin-top: 20px;">
+  <li>
+    Designed the MetaOS Most Recently Used (MRU) app sorting and intelligent pinning features for Outlook, improving user navigation and personalization.
+  </li>
+  <li>
+    Collaborated closely with engineering, product, and design teams to align technical solutions with user experience goals.
+  </li>
+  <li>
+    Authored a detailed technical specification for the MRU and intelligent pinning features within the first four weeks, which was reviewed and approved by cross-functional PM teams.
+  </li>
+  <li>
+    Implemented MRU acquisition signal capturing, developed sorting algorithms to fetch, update, and query the MRU app list, and handled critical edge cases for robustness.
+  </li>
+  <li>
+    Analyzed user interaction data to optimize pinning behavior, tuning the frequency of pin tip prompts based on user engagement patterns.
+  </li>
+  <li>
+    Successfully landed pull requests for all features; pending release to production users upon feature flight completion.
+  </li>
+</ul>
       </div>
     </div>
   </div>
 
-  <!-- Scotiabank -->
+  <!-- Scotiabank Card -->
   <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
+    <div class="flip-card-inner" style="background: #ffe6ec;">
+      <div class="flip-card-front" style="background: #ffe6ec;">
         <h3>Scotiabank (W24)</h3>
+        <img src="https://img.icons8.com/ios-filled/50/000000/bank-building.png" alt="Scotiabank Icon" style="width:40px; margin: 10px 0;">
         <p><strong>Role:</strong> SWE and ML Research Intern</p>
+        <p><strong>Team:</strong> AI/ML Research Group</p>
         <p><strong>Timeline:</strong> Jan 2024 – Apr 2024</p>
+        <p><strong>Location:</strong> Toronto, ON</p>
         <div class="tech-stack">
           <code>Python</code> <code>TensorFlow</code> <code>Scikit-learn</code> <code>SQL</code>
         </div>
       </div>
-      <div class="flip-card-back">
-        <ul>
-          <li>Built ML pipelines for document classification.</li>
-          <li>Improved model robustness and explainability.</li>
-          <li>Supported deployment in banking systems.</li>
-        </ul>
+      <div class="flip-card-back" style="background: #fff0f5;">
+        <ul style="margin-top: 20px;">
+  <li>
+    Developed machine learning pipelines for financial document classification, improving efficiency and scalability.
+  </li>
+  <li>
+    Conducted research to enhance model robustness and explainability for production ML systems.
+  </li>
+  <li>
+    Collaborated with data scientists in the AI/ML and Corporate Functions Analytics teams on the AI Product Recommender project.
+  </li>
+  <li>
+    Designed and built a full-stack data pipeline to generate unique queryIDs, linking user behavior signals (clicks, views) into unified events, and storing them in MongoDB for analysis.
+  </li>
+  <li>
+    Generated a judgment list of relevance labels using the Simplified Dynamic Bayesian Network (SDBN) click model, supporting supervised learning efforts.
+  </li>
+  <li>
+    Conducted feature engineering by expanding the feature store and logging additional attributes in Solr to improve model input quality.
+  </li>
+  <li>
+    Implemented Learning-to-Rank (LTR) techniques, specifically a pairwise SVM model, to automatically reweight feature signals and enhance the relevance of personalized product search results.
+  </li>
+</ul>
       </div>
     </div>
   </div>
 
 </div>
+
 
 <!-- Contact icons -->
 <div style="margin-top: 60px; text-align: center;">
