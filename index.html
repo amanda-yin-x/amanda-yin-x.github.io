@@ -5,52 +5,61 @@
   <title>Amanda Yin - Portfolio</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
+      font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(to bottom right, #ffe6f0, #fff5fa);
+      color: #444;
+      line-height: 1.7;
     }
     h1 {
-      font-size: 3em;
+      font-size: 3.5em;
       margin-bottom: 0;
+      color: #b30059;
+      font-weight: bold;
     }
     blockquote {
       margin: 20px 0;
       padding-left: 20px;
-      border-left: 5px solid #ccc;
-      color: #555;
+      border-left: 4px solid #f4a0c9;
+      color: #666;
+      font-style: italic;
     }
     .highlight {
       display: inline-block;
-      background: #ffeaea;
-      color: #cc0000;
+      background: #ffd6e7;
+      color: #b30059;
       font-weight: bold;
-      padding: 5px 10px;
-      border-radius: 5px;
-      margin: 20px 0;
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin: 25px 0;
+      font-size: 1.2em;
     }
     .container {
       display: flex;
       flex-wrap: wrap;
-      margin-top: 30px;
+      margin-top: 40px;
     }
     .content {
       flex: 1 1 60%;
-      padding-right: 20px;
+      padding-right: 30px;
     }
     .photo {
       flex: 1 1 35%;
       text-align: center;
     }
     .photo img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      margin-bottom: 10px;
     }
     a {
-      color: #6c63ff;
+      color: #d17ba2;
       text-decoration: none;
+      font-weight: 500;
     }
     a:hover {
       text-decoration: underline;
@@ -58,17 +67,28 @@
     .cv-link {
       display: flex;
       align-items: center;
-      margin-top: 20px;
+      margin-top: 25px;
       gap: 10px;
     }
     .cv-link svg {
       width: 24px;
       height: 24px;
+      color: #d17ba2;
     }
     footer {
-      margin-top: 50px;
+      margin-top: 60px;
       font-size: 0.9em;
-      color: #777;
+      color: #888;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .content {
+        padding-right: 0;
+      }
     }
   </style>
 </head>
@@ -92,10 +112,10 @@
 
     <p>I enjoy bringing innovative and meaningful ideas to life with technology.</p>
 
-    <p>I am currently a SWE intern at <a href="#">StackAdapt(W25)</a> and an incoming intern at <a href="#">Microsoft(S25)</a>.</p>
+    <p>I am currently a SWE intern at <a href="https://www.linkedin.com/company/stackadapt/posts/?feedView=all" target="_blank">StackAdapt(W25)</a> and an incoming intern at <a href="https://www.linkedin.com/company/microsoft/posts/?feedView=all" target="_blank">Microsoft(S25)</a>.</p>
 
-    <p>I previously worked as a <a href="#">SWE and PM intern(S24)</a> at Microsoft Redmond.  
-    Before that, I worked at <a href="#">Scotiabank</a> as a SWE and ML research intern(W24).</p>
+    <p>I previously worked as a <a href="https://careers.microsoft.com/v2/global/en/exploremicrosoft" target="_blank">SWE and PM intern(S24)</a> at Microsoft Redmond.  
+    Before that, I worked at <a href="https://www.linkedin.com/company/scotiabank/posts/?feedView=all" target="_blank">Scotiabank</a> as a SWE and ML research intern(W24).</p>
 
     <div class="cv-link">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
