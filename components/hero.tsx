@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Mail, Linkedin, ArrowRight, Sparkles, HeartPulse } from "lucide-react";
+import { Mail, Linkedin, ArrowRight, Sparkles, HeartPulse, GraduationCap, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { cn } from "@/lib/utils";
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
+  const [flipped, setFlipped] = useState(false);
 
   const container = {
     hidden: { opacity: 0, y: reduceMotion ? 0 : 12 },
@@ -134,9 +135,9 @@ export function Hero() {
 
       <motion.div
         variants={item}
-        className="relative grid gap-4 rounded-2xl border border-border bg-white/70 p-5 shadow-soft backdrop-blur-soft"
+        className="relative grid gap-4 rounded-2xl bg-white/70 p-4 shadow-soft backdrop-blur-soft lg:p-6"
       >
-        <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-primary/25 via-white to-accent/20 blur-3xl" />
+        <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-primary/14 via-white to-accent/12 blur-3xl" />
         <div className="flex items-center justify-between rounded-xl bg-white/80 p-3">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-sm font-bold text-white shadow-glow">
@@ -145,58 +146,54 @@ export function Hero() {
             <div>
               <p className="text-sm text-muted">Currently</p>
               <p className="font-semibold text-ink">
-                Shipping at Microsoft • SWE Intern
+                Building at Boosted.ai • SWE Intern
               </p>
             </div>
           </div>
           <Sparkles className="h-5 w-5 text-primary" />
         </div>
 
-        <div className="relative overflow-hidden rounded-xl border border-border bg-white/90 shadow-soft">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-white" />
-          <div className="relative grid grid-cols-3 gap-3 p-3">
-            <div className="col-span-2 overflow-hidden rounded-xl">
+        <div className="flex flex-col gap-3">
+          <div
+            className="relative overflow-hidden rounded-2xl bg-white/90 shadow-soft [perspective:1200px] aspect-[4/3]"
+          >
+            <div
+              className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 ease-in-out"
+              style={{
+                transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                transition: "transform 0.45s ease-in-out"
+              }}
+              onMouseEnter={() => setFlipped(true)}
+              onMouseLeave={() => setFlipped(false)}
+              onClick={() => setFlipped((v) => !v)}
+            >
+            <div className="absolute inset-0 h-full w-full rounded-2xl [backface-visibility:hidden]">
               <Image
                 src="/profile.jpg"
                 alt="Portrait of Amanda Yin"
-                width={420}
-                height={340}
-                className="h-full w-full rounded-xl object-cover"
-              />
+                width={1200}
+                  height={800}
+                  className="h-full w-full rounded-2xl object-cover"
+                />
+              </div>
+              <div className="absolute inset-0 flex h-full w-full items-center justify-center rounded-2xl bg-white/92 px-6 text-center text-sm text-muted [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                Photo taken in traditional Miao minority costume in Yunnan province, China.
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <FactPill label="Film lover" />
-              <FactPill label="Paddle boarder" />
-              <FactPill label="Cat mom" />
+          </div>
+
+          <div className="grid gap-3 rounded-xl bg-white/60 p-4 text-sm text-muted">
+            <div className="flex items-center gap-2 text-ink">
+              <GraduationCap className="h-4 w-4 text-primary" />
+              <span className="font-semibold">Senior in Computer Science &amp; Statistics</span>
             </div>
-          </div>
-        </div>
-        <div className="grid gap-3 rounded-xl bg-white/70 p-4 text-sm text-muted md:grid-cols-2">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-primary" />
-            Senior — Computer Science (Software Engineering Stream) &amp; Statistics
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-accent" />
-            Based in Toronto · open to global collaboration
-          </div>
-          <div className="md:col-span-2 text-muted">
-            Photo taken in traditional Miao minority costume in Yunnan province, China.
+            <div className="flex items-center gap-2 text-ink">
+              <MapPin className="h-4 w-4 text-primary" />
+              <span className="font-semibold">Based in Toronto · open to global collaboration</span>
+            </div>
           </div>
         </div>
       </motion.div>
     </motion.section>
-  );
-}
-
-function FactPill({ label }: { label: string }) {
-  return (
-    <div
-      className={cn(
-        "gradient-pill flex items-center justify-center rounded-full px-3 py-2 text-xs font-semibold text-ink shadow-soft"
-      )}
-    >
-      {label}
-    </div>
   );
 }

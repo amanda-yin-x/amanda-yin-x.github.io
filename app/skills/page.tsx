@@ -1,90 +1,94 @@
 import type { Metadata } from "next";
 import { PageTransition } from "@/components/page-transition";
 import { SectionHeader } from "@/components/section-header";
-import { SkillCard } from "@/components/skill-card";
-import { Badge } from "@/components/ui/badge";
-import { skills, toolbox, optimizationFocus } from "@/lib/data";
-import { Wand2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Skills · Amanda Yin",
   description:
-    "Skills, tools, and areas of focus across frontend, backend, ranking systems, and collaboration."
+    "Core stack, systems depth, and how I work — signal-forward and intentionally minimal."
 };
 
 export default function SkillsPage() {
+  const coreStack = [
+    "TypeScript",
+    "JavaScript",
+    "React",
+    "GraphQL",
+    "Rust",
+    "C/C++",
+    "Python",
+    "SQL"
+  ];
+
+  const systemsResearch = [
+    "Client–Server Protocols & API Design",
+    "Data Modeling",
+    "Microservices",
+    "Kubernetes",
+    "LLM Quantization",
+    "Mathematical Optimization",
+    "ML Pipelines",
+    "Data Systems (MySQL, MongoDB, Solr)",
+    "Research Writing & Publications"
+  ];
+
+  const waysIWork = [
+    "I design systems with long-term performance and reliability in mind.",
+    "I care deeply about accessible, human-centered UX.",
+    "I work best in collaborative, product-driven environments."
+  ];
+
   return (
     <PageTransition>
-      <div className="mt-4 space-y-10">
+      <div className="mt-6 space-y-14">
         <SectionHeader
           eyebrow="Skills"
-          title="Skills & tools"
-          description="Crafting experiences across full-stack product work, ranking systems, and collaborative delivery."
+          title="Core stack, systems depth, and how I work"
+          description="Signal-only. Calm, intentional, and confident."
+          className="relative"
         />
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {skills.map((skill) => (
-            <SkillCard key={skill.name} {...skill} />
-          ))}
-        </div>
-
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-sm font-semibold text-ink">
-            <Wand2 className="h-4 w-4 text-primary" />
-            Toolbox
-          </div>
-          <Toolbox />
-        </div>
-
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-sm font-semibold text-ink">
-            <Wand2 className="h-4 w-4 text-accent" />
-            What I&apos;m optimizing for
-          </div>
-          <div className="grid gap-3 md:grid-cols-3">
-            {optimizationFocus.map((item) => (
-              <div
+        <section className="space-y-6">
+          <h2 className="text-2xl font-semibold text-ink">Core Stack</h2>
+          <div className="flex flex-wrap gap-3 text-lg font-semibold text-ink">
+            {coreStack.map((item) => (
+              <span
                 key={item}
-                className="rounded-2xl border border-border bg-white/80 px-4 py-3 text-sm text-ink shadow-soft"
+                className="rounded-xl bg-white/60 px-4 py-2 transition duration-150 hover:bg-primary/10"
               >
                 {item}
-              </div>
+              </span>
             ))}
           </div>
-        </div>
+          <p className="text-sm text-muted">
+            Typed, scalable systems · Native + web integration · Product-facing infrastructure
+          </p>
+        </section>
+
+        <section className="space-y-6">
+          <h2 className="text-2xl font-semibold text-ink">Systems &amp; Research</h2>
+          <div className="grid gap-3 text-base text-ink md:grid-cols-2">
+            {systemsResearch.map((item) => (
+              <span
+                key={item}
+                className="rounded-lg px-2 py-1 transition duration-150 hover:bg-accent/8 hover:underline hover:decoration-primary/70 hover:underline-offset-4"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <section className="space-y-4 rounded-2xl bg-white/60 p-5 text-base text-ink shadow-soft">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between md:gap-6">
+            {waysIWork.map((item) => (
+              <p key={item} className="md:w-1/3 text-muted md:text-base">
+                {item}
+              </p>
+            ))}
+          </div>
+        </section>
       </div>
     </PageTransition>
-  );
-}
-
-function Toolbox() {
-  const labels: Record<string, string> = {
-    languages: "Languages",
-    frontend: "Frontend",
-    backend: "Backend",
-    dataML: "Data / ML",
-    systems: "Systems"
-  };
-
-  return (
-    <div className="grid gap-3 md:grid-cols-2">
-      {Object.entries(toolbox).map(([category, items]) => (
-        <div
-          key={category}
-          className="rounded-2xl border border-border bg-white/80 p-4 shadow-soft"
-        >
-          <p className="text-sm font-semibold capitalize text-ink">
-            {labels[category] ?? category}
-          </p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {items.map((item) => (
-              <Badge key={item} variant="outline" className="bg-white/80">
-                {item}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
   );
 }
