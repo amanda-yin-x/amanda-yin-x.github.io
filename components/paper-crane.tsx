@@ -94,9 +94,9 @@ export function PaperCrane({
   // Animating state - show crane with scroll animation
   return (
     <div ref={containerRef} className="relative">
-      {/* Full-screen crane entry */}
+      {/* Full-screen crane entry - z-30 to stay below navigation (z-40) */}
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-parchment"
+        className="fixed inset-0 z-30 flex items-center justify-center bg-parchment"
         style={{ opacity: craneOpacity }}
         onClick={handleClick}
       >
