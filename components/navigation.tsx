@@ -39,12 +39,23 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menu when clicking outside
+  // Close menu when clicking outside (with delay to allow link navigation)
   useEffect(() => {
     if (!open) return;
-    const handleClick = () => setOpen(false);
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    const handleClick = (e: MouseEvent) => {
+      // Don't close if clicking inside the dropdown
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-dropdown]')) return;
+      setOpen(false);
+    };
+    // Use capture phase with slight delay
+    const timeoutId = setTimeout(() => {
+      document.addEventListener("click", handleClick);
+    }, 0);
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("click", handleClick);
+    };
   }, [open]);
 
   return (
@@ -123,12 +134,12 @@ export function Navigation() {
               <AnimatePresence>
                 {open && (
                   <motion.div
+                    data-dropdown
                     className="absolute right-0 top-full z-50 mt-2 w-48 rounded-sm border border-border bg-paper p-2 shadow-paperLifted"
                     initial={{ opacity: 0, y: -8, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -8, scale: 0.96 }}
                     transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                    onClick={(e) => e.stopPropagation()}
                   >
                     <nav className="flex flex-col">
                       {links.map((link, index) => {
