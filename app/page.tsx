@@ -1,4 +1,3 @@
-import { Hero } from "@/components/hero";
 import { HomePageContent } from "@/components/home-page-content";
 
 export default function HomePage() {

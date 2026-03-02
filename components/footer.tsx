@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Github, Linkedin, Mail, ArrowUpRight } from "lucide-react";
+import { siteTagline } from "@/lib/site";
 
 const socialLinks = [
   {
@@ -32,7 +33,7 @@ export function Footer() {
               Amanda Yin
             </p>
             <p className="text-sm text-inkFaded">
-              Building thoughtful software.
+              {siteTagline}
             </p>
           </div>
 

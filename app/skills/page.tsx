@@ -5,7 +5,7 @@ import { SkillsPageContent } from "@/components/skills-page-content";
 export const metadata: Metadata = {
   title: "Skills · Amanda Yin",
   description:
-    "Core stack, systems depth, and how I work — signal-forward and intentionally minimal."
+    "Core stack, infra rabbit holes, and a less-corporate explanation of how Amanda Yin actually likes to work."
 };
 
 export default function SkillsPage() {

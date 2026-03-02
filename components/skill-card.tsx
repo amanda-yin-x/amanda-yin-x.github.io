@@ -3,60 +3,52 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-type Props = {
-  name: string;
-  description: string;
-  level: number;
+export type SkillTone = {
+  card: string;
+  wash: string;
+  badge: string;
+  accent: string;
 };
 
-export function SkillCard({ name, description, level }: Props) {
+type Props = {
+  name: string;
+  vibe: string;
+  note: string;
+  tone: SkillTone;
+};
+
+export function SkillCard({ name, vibe, note, tone }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-      whileHover={{ y: -3 }}
-      className="group relative overflow-hidden rounded-sm border border-fold bg-paper/80 p-4 shadow-paper transition-all hover:border-tiffany/30 hover:shadow-lifted"
+      whileHover={{ y: -5, rotate: -0.4 }}
+      className={cn(
+        "group relative overflow-hidden rounded-[1.75rem] border p-5 shadow-paper transition-all hover:shadow-paperLifted",
+        tone.card
+      )}
     >
-      <div className="relative flex flex-col gap-3">
-        {/* Header with name and level indicator */}
+      <div className={cn("absolute inset-0 bg-gradient-to-br opacity-90", tone.wash)} />
+
+      <div className="relative flex flex-col gap-4">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-base font-medium text-ink">{name}</h3>
-          <span className="shrink-0 rounded-sm border border-fold bg-paperWarm px-2 py-0.5 text-xs font-medium text-inkFaded">
-            {levelLabel(level)}
+          <h3 className="text-lg font-medium text-ink">{name}</h3>
+          <span className={cn("shrink-0 rounded-full border px-3 py-1 text-xs font-medium", tone.badge)}>
+            {vibe}
           </span>
         </div>
 
-        {/* Description */}
-        <p className="line-clamp-2 text-sm leading-relaxed text-inkLight">{description}</p>
+        <p className="text-sm leading-relaxed text-inkLight">{note}</p>
 
-        {/* Progress bar style level indicator */}
-        <div className="flex items-center gap-0.5">
-          {Array.from({ length: 5 }).map((_, index) => {
-            const active = index < level;
-            return (
-              <div
-                key={index}
-                className={cn(
-                  "h-1 flex-1 rounded-full transition-colors",
-                  active ? "bg-tiffany" : "bg-fold"
-                )}
-              />
-            );
-          })}
+        <div className="flex items-center justify-between gap-3">
+          <div className={cn("h-1.5 w-16 rounded-full", tone.accent)} />
+          <span className="text-xs uppercase tracking-[0.18em] text-inkWash">
+            Build mode
+          </span>
         </div>
       </div>
-
-      {/* Hover accent */}
-      <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-tiffany transition-all duration-300 group-hover:w-full" />
     </motion.div>
   );
-}
-
-function levelLabel(level: number) {
-  if (level >= 5) return "Expert";
-  if (level === 4) return "Advanced";
-  if (level === 3) return "Proficient";
-  return "Learning";
 }

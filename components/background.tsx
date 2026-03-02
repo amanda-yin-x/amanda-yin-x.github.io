@@ -12,8 +12,14 @@ export function BackgroundDecor() {
       {/* Paper texture overlay */}
       <div className="paper-texture absolute inset-0" />
 
-      {/* Subtle warm gradient */}
+      {/* Warm base gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-cream/50 via-transparent to-paperDark/30" />
+
+      {/* Playful color clouds */}
+      <div className="absolute -left-16 top-24 h-72 w-72 rounded-full bg-[var(--seafoam)]/70 blur-3xl" />
+      <div className="absolute right-0 top-16 h-80 w-80 rounded-full bg-[var(--mist)]/55 blur-3xl" />
+      <div className="absolute bottom-12 left-1/3 h-72 w-72 rounded-full bg-[var(--apricot)]/45 blur-3xl" />
+      <div className="absolute bottom-0 right-24 h-64 w-64 rounded-full bg-[var(--rose)]/60 blur-3xl" />
 
       {/* Corner shadows for depth */}
       <div className="absolute left-0 top-0 h-96 w-96 bg-gradient-radial from-transparent to-paperDark/10 blur-3xl" />

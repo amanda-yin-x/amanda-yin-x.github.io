@@ -44,7 +44,7 @@ export function Tabs({
 
 export function TabsList({ children }: { children: React.ReactNode }) {
   return (
-    <div className="inline-flex items-center gap-1 rounded-sm border border-fold bg-paperWarm/80 p-1 shadow-paper">
+    <div className="inline-flex flex-wrap items-center gap-1.5 rounded-[1.6rem] border border-fold bg-paper/80 p-1.5 shadow-paper backdrop-blur-sm">
       {children}
     </div>
   );
@@ -67,7 +67,7 @@ export function TabsTrigger({
     <button
       onClick={() => ctx.setValue(value)}
       className={cn(
-        "relative rounded-sm px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tiffany/40",
+        "relative rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tiffany/40",
         isActive ? "text-paper" : "text-inkFaded hover:text-ink"
       )}
       type="button"
@@ -75,7 +75,7 @@ export function TabsTrigger({
       {isActive && (
         <motion.span
           layoutId="tab-bg"
-          className="absolute inset-0 rounded-sm bg-ink"
+          className="absolute inset-0 rounded-full bg-gradient-to-r from-ink to-[#2d6260]"
           transition={{
             duration: reduceMotion ? 0 : 0.2,
             ease: [0.4, 0, 0.2, 1]

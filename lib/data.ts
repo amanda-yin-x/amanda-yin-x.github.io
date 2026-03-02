@@ -1,4 +1,4 @@
-export type ExperienceCategory = "all" | "swe" | "research" | "product";
+export type ExperienceCategory = "all" | "swe" | "research" | "teaching";
 
 export type Experience = {
   id: string;
@@ -18,14 +18,19 @@ export const experiences: Experience[] = [
   {
     id: "boosted-2026",
     company: "Boosted.ai",
-    title: "Incoming SWE Intern",
-    location: "Toronto, ON · AI for investment",
-    timeframe: "Winter 2026",
-    status: "Incoming — Winter 2026",
-    categories: ["swe", "product"],
-    highlights: ["Incoming Winter 2026 — building AI for investment outcomes."],
-    tags: ["AI", "Product", "Software Engineering"],
-    order: 202600
+    team: "AI for investing startup",
+    title: "Reliability Team (Infra-focused)",
+    location: "Toronto, ON",
+    timeframe: "W26",
+    status: "Current",
+    categories: ["swe"],
+    highlights: [
+      "Building agent evaluation and scoring pipelines with guardrails and RAG in the loop.",
+      "Built an abstract class library for gRPC centralization, including retry configs, timeout configs, and pooling mode selection.",
+      "Improved latency by up to 10x."
+    ],
+    tags: ["Agent evals", "RAG", "gRPC", "Infra"],
+    order: 202604
   },
   {
     id: "microsoft-s25",
@@ -34,7 +39,7 @@ export const experiences: Experience[] = [
     title: "SWE Intern",
     location: "Redmond, WA · On-site",
     timeframe: "Jun 2025 – Aug 2025",
-    categories: ["swe", "product"],
+    categories: ["swe"],
     highlights: [
       "Designed a native-to-web bridge integrating legacy PST into new Outlook.",
       "Built a pipeline with MAPI + Win32GQL + GraphQL to surface local task data in React/TypeScript.",
@@ -66,7 +71,7 @@ export const experiences: Experience[] = [
     title: "SWE Intern",
     location: "Toronto, ON",
     timeframe: "Jan 2025 – Apr 2025",
-    categories: ["swe", "product"],
+    categories: ["swe"],
     highlights: [
       "Led full-stack geo-radius targeting for campaign forecast planning (CSV upload, validation, API translation, live map editing).",
       "Built backend flows for S3 uploads, geocode API triggers, pseudo-zip generation, and forecast model attachment.",
@@ -83,7 +88,7 @@ export const experiences: Experience[] = [
     title: "SWE & PM Intern",
     location: "Redmond, WA",
     timeframe: "May 2024 – Aug 2024",
-    categories: ["swe", "product"],
+    categories: ["swe"],
     highlights: [
       "Designed MRU sorting and intelligent pinning for Outlook’s MetaOS apps.",
       "Implemented acquisition signal capture, MRU sorting algorithms, and resilient edge-case handling.",
@@ -92,6 +97,23 @@ export const experiences: Experience[] = [
     ],
     tags: ["TypeScript", "React", "GraphQL", "Product Management"],
     order: 202408
+  },
+  {
+    id: "teaching-w24",
+    company: "University of Toronto",
+    team: "Contract Part-time",
+    title: "Teaching Assistant",
+    location: "Toronto, ON · On-site",
+    timeframe: "Jan 2024 - Apr 2024",
+    status: "4 months",
+    categories: ["teaching"],
+    highlights: [
+      "Winter 2024: MAT A37 - Calculus II for Mathematical Science and CSC A67 - Discrete Mathematics.",
+      "Prepared and conducted weekly tutorials and office hours.",
+      "Delivered a final review seminar for about 150 students."
+    ],
+    tags: ["Teaching", "MAT A37", "CSC A67", "Tutorials", "Office hours"],
+    order: 20240410
   },
   {
     id: "scotiabank-w24",
@@ -108,7 +130,7 @@ export const experiences: Experience[] = [
       "Implemented Learning-to-Rank models with pairwise SVM to strengthen personalized rankings."
     ],
     tags: ["JavaScript", "Feature Engineering", "Signal Boosting", "LTR", "SVM", "Solr", "SQL"],
-    order: 202404
+    order: 20240420
   }
 ];
 

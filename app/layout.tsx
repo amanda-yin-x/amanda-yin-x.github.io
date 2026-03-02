@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Playfair_Display, Caveat } from "next/font/google";
+import { siteTagline } from "@/lib/site";
 import "./globals.css";
 
 const sans = Plus_Jakarta_Sans({
@@ -21,14 +22,14 @@ const hand = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Amanda Yin · Software Engineer",
+  title: "Amanda Yin",
   description:
-    "Portfolio of Amanda Yin — software engineer, LLM quantization researcher, and product builder.",
+    "Portfolio of Amanda Yin - software engineer, researcher, builder, and side quest collector.",
   metadataBase: new URL("https://amanda-yin-x.github.io"),
   openGraph: {
-    title: "Amanda Yin · Software Engineer",
+    title: "Amanda Yin",
     description:
-      "Portfolio of Amanda Yin — building human-centered software across full stack, product, and ML research.",
+      `${siteTagline} Software, ventures, research notes, and the things Amanda Yin is currently making.`,
     type: "website",
     url: "https://amanda-yin.com",
     images: [{ url: "/profile.svg", width: 1200, height: 630, alt: "Amanda Yin" }]

@@ -5,7 +5,7 @@ import { VenturesPageContent } from "@/components/ventures-page-content";
 export const metadata: Metadata = {
   title: "Ventures · Amanda Yin",
   description:
-    "Building tools that help people move forward — AI-powered CVs, founder discovery, and more."
+    "Side quests, ventures, and experiments Amanda Yin keeps building, revisiting, or refusing to shut up about."
 };
 
 export default function EntrepreneurshipPage() {
