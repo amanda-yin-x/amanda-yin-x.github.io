@@ -1,94 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  background: radial-gradient(circle at 12% 18%, rgba(167, 139, 250, 0.12), transparent 26%),
-    radial-gradient(circle at 82% 12%, rgba(251, 113, 133, 0.12), transparent 22%),
-    radial-gradient(circle at 50% 80%, rgba(244, 161, 187, 0.2), transparent 32%),
-    #fdf8f6;
-  color: #111827;
+  --paper: #FFFDF8;
+  --parchment: #F5F1E8;
+  --ink: #1A1A1A;
+  --tiffany: #0ABAB5;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: var(--font-jakarta), "Inter", system-ui, -apple-system, sans-serif;
-  color: #111827;
-  background: transparent;
+  font-family: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--parchment);
   -webkit-font-smoothing: antialiased;
-  position: relative;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
+/* Paper texture overlay */
+.paper-texture {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='1'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  mix-blend-mode: multiply;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
-  mix-blend-mode: soft-light;
-  opacity: 0.4;
-  z-index: 0;
 }
 
+/* Radial gradient helper */
+.bg-gradient-radial {
+  background: radial-gradient(circle at center, var(--tw-gradient-stops));
+}
+
+/* Selection */
 ::selection {
-  background: rgba(167, 139, 250, 0.2);
+  background: rgba(10, 186, 181, 0.2);
+  color: var(--ink);
 }
 
+/* Focus states */
 a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #a78bfa;
-  outline-offset: 2px;
-  border-radius: 12px;
+button:focus-visible {
+  outline: 1px solid var(--tiffany);
+  outline-offset: 3px;
 }
 
-.glass {
-  @apply bg-card backdrop-blur-soft border border-border;
+/* Typography */
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
-.card-hover {
-  @apply transition transform duration-200 ease-out hover:-translate-y-1 hover:shadow-soft;
+.font-hand {
+  font-family: 'Caveat', cursive;
 }
 
-.gradient-pill {
-  background: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(251, 113, 133, 0.22));
-  border: 1px solid rgba(167, 139, 250, 0.35);
-  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.07);
+/* Handwritten text effect */
+.text-handwritten {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5em;
+  line-height: 1.4;
 }
 
-.sparkle {
+/* Ink accent text */
+.text-ink-accent {
+  color: var(--tiffany);
+  text-decoration: underline;
+  text-decoration-color: rgba(10, 186, 181, 0.3);
+  text-underline-offset: 3px;
+}
+
+/* Letter paper styling */
+.letter-paper {
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF8F3 100%);
+  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.03),
+    0 4px 20px rgba(0,0,0,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+/* Fold crease effect */
+.fold-crease {
   position: relative;
 }
 
-.sparkle::after {
-  content: "✶";
-  position: absolute;
-  right: -18px;
-  top: -8px;
-  font-size: 12px;
-  color: #fb7185;
-  text-shadow: 0 0 12px rgba(167, 139, 250, 0.45);
-}
-
-.shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-.shimmer::before {
+.fold-crease::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-  animation: shimmer 2.6s linear infinite;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0,0,0,0.04) 20%,
+    rgba(0,0,0,0.06) 50%,
+    rgba(0,0,0,0.04) 80%,
+    transparent
+  );
 }
 
+/* Lined paper effect */
+.lined-paper {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    rgba(0,0,0,0.03) 31px,
+    rgba(0,0,0,0.03) 32px
+  );
+  background-size: 100% 32px;
+  padding-top: 16px;
+}
+
+/* Link hover with ink underline */
+.link-ink {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link-ink::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--ink);
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-ink:hover::after {
+  width: 100%;
+}
+
+/* Tiffany accent link */
+.link-tiffany::after {
+  background: var(--tiffany);
+}
+
+/* Card with paper fold effect */
+.paper-card {
+  background: #FFFDF8;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.04),
+    0 8px 32px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+
+.paper-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.06),
+    0 12px 40px rgba(0,0,0,0.08);
+}
+
+/* Stamp/seal accent */
+.stamp-accent {
+  border: 2px solid var(--tiffany);
+  border-radius: 50%;
+  padding: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Reveal animations */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+
+/* Decorative horizontal rule */
+.hr-ornament {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0,0,0,0.1) 20%,
+    rgba(0,0,0,0.1) 80%,
+    transparent
+  );
+  margin: 2rem 0;
+  position: relative;
+}
+
+.hr-ornament::after {
+  content: "~";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--parchment);
+  padding: 0 1rem;
+  color: rgba(0,0,0,0.2);
+  font-family: 'Playfair Display', serif;
+}
+
+/* Ink blot decoration */
+.ink-blot {
+  position: relative;
+}
+
+.ink-blot::before {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--tiffany);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--parchment);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

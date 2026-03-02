@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Playfair_Display, Caveat } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "@/components/navigation";
-import { BackgroundDecor } from "@/components/background";
-import { Footer } from "@/components/footer";
 
-const font = Plus_Jakarta_Sans({
+const sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-jakarta",
+  display: "swap"
+});
+
+const serif = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap"
+});
+
+const hand = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
   display: "swap"
 });
 
@@ -32,16 +41,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={font.variable}>
-      <body className="bg-transparent text-ink antialiased">
-        <BackgroundDecor />
-        <div className="relative z-10">
-          <Navigation />
-          <main className="max-w-6xl mx-auto px-6 lg:px-8 pb-16 pt-6">
-            {children}
-          </main>
-          <Footer />
-        </div>
+    <html lang="en" className={`${sans.variable} ${serif.variable} ${hand.variable}`}>
+      <body className="bg-parchment text-ink antialiased font-sans">
+        {children}
       </body>
     </html>
   );

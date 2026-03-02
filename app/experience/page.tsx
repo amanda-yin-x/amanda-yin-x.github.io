@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageWrapper } from "@/components/page-wrapper";
 import { PageTransition } from "@/components/page-transition";
 import { SectionHeader } from "@/components/section-header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,39 +21,41 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <PageTransition>
-      <div className="mt-4 space-y-8">
-        <SectionHeader
-          eyebrow="Experience"
-          title="Roles that shaped me"
-          description="A blend of product-minded engineering, ML research, and cross-functional collaboration."
-        />
+    <PageWrapper>
+      <PageTransition>
+        <div className="mt-4 space-y-8">
+          <SectionHeader
+            eyebrow="Experience"
+            title="Roles that shaped me"
+            description="A blend of product-minded engineering, ML research, and cross-functional collaboration."
+          />
 
-        <Tabs defaultValue="all">
-          <TabsList>
-            {filters.map((filter) => (
-              <TabsTrigger key={filter.value} value={filter.value}>
-                {filter.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <Tabs defaultValue="all">
+            <TabsList>
+              {filters.map((filter) => (
+                <TabsTrigger key={filter.value} value={filter.value}>
+                  {filter.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-          {filters.map((filter) => {
-            const filtered =
-              filter.value === "all"
-                ? experiences
-                : experiences.filter((exp) =>
-                    exp.categories.includes(filter.value)
-                  );
-            const sorted = [...filtered].sort((a, b) => b.order - a.order);
-            return (
-              <TabsContent key={filter.value} value={filter.value}>
-                <ExperienceTimeline experiences={sorted} />
-              </TabsContent>
-            );
-          })}
-        </Tabs>
-      </div>
-    </PageTransition>
+            {filters.map((filter) => {
+              const filtered =
+                filter.value === "all"
+                  ? experiences
+                  : experiences.filter((exp) =>
+                      exp.categories.includes(filter.value)
+                    );
+              const sorted = [...filtered].sort((a, b) => b.order - a.order);
+              return (
+                <TabsContent key={filter.value} value={filter.value}>
+                  <ExperienceTimeline experiences={sorted} />
+                </TabsContent>
+              );
+            })}
+          </Tabs>
+        </div>
+      </PageTransition>
+    </PageWrapper>
   );
 }

@@ -14,17 +14,17 @@ export function Badge({
 }) {
   const variants: Record<Variant, string> = {
     default:
-      "bg-gradient-to-r from-primary/80 to-accent/80 text-white shadow-glow",
+      "bg-tiffany text-paper",
     soft:
-      "gradient-pill text-ink",
+      "bg-tiffanyMuted text-tiffany border border-tiffany/10",
     outline:
-      "border border-primary/40 text-ink bg-white/70"
+      "border border-border text-inkFaded bg-paper"
   };
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold",
+        "inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 text-xs font-medium tracking-wide",
         variants[variant],
         className
       )}

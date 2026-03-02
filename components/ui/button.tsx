@@ -26,22 +26,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const variantClasses: Record<Variant, string> = {
       primary:
-        "bg-gradient-to-r from-primary to-accent text-white shadow-soft hover:shadow-glow",
+        "bg-ink text-paper hover:bg-inkLight shadow-paper",
       secondary:
-        "bg-white/80 text-ink border border-border hover:border-primary/60 hover:shadow-soft",
+        "bg-paper text-ink border border-border hover:border-tiffany hover:text-tiffany",
       outline:
-        "bg-transparent text-ink border border-border hover:border-primary/60",
-      ghost: "bg-transparent text-ink hover:bg-white/70"
+        "bg-transparent text-ink border border-borderDark hover:border-tiffany hover:text-tiffany",
+      ghost: "bg-transparent text-ink hover:bg-paperDark"
     };
 
     const sizeClasses: Record<Size, string> = {
-      sm: "px-3 py-2 text-sm",
-      md: "px-4 py-2.5 text-sm",
-      lg: "px-5 py-3 text-base"
+      sm: "px-3.5 py-2 text-sm",
+      md: "px-5 py-2.5 text-sm",
+      lg: "px-6 py-3 text-base"
     };
 
     const baseClasses = cn(
-      "inline-flex items-center gap-2 rounded-full font-semibold transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
+      "inline-flex items-center justify-center gap-2 rounded-sm font-medium transition-all duration-200 ease-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tiffany/40 focus-visible:ring-offset-2 focus-visible:ring-offset-parchment",
       variantClasses[variant],
       sizeClasses[size],
       className

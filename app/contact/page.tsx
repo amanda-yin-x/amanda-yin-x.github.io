@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageWrapper } from "@/components/page-wrapper";
 import { PageTransition } from "@/components/page-transition";
 import { ContactPageContent } from "@/components/contact-page-content";
 
@@ -10,10 +11,12 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <PageTransition>
-      <div className="mt-4">
-        <ContactPageContent />
-      </div>
-    </PageTransition>
+    <PageWrapper>
+      <PageTransition>
+        <div className="mt-4">
+          <ContactPageContent />
+        </div>
+      </PageTransition>
+    </PageWrapper>
   );
 }

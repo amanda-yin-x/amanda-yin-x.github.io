@@ -11,7 +11,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "glass rounded-2xl p-6 shadow-soft transition duration-200 hover:-translate-y-1 hover:shadow-soft",
+        "paper-card rounded-sm p-6 transition-all duration-200 hover:-translate-y-0.5",
         className
       )}
     >

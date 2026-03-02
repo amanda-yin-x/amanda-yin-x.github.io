@@ -44,7 +44,7 @@ export function Tabs({
 
 export function TabsList({ children }: { children: React.ReactNode }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 p-1 shadow-soft">
+    <div className="inline-flex items-center gap-1 rounded-sm border border-fold bg-paperWarm/80 p-1 shadow-paper">
       {children}
     </div>
   );
@@ -67,21 +67,21 @@ export function TabsTrigger({
     <button
       onClick={() => ctx.setValue(value)}
       className={cn(
-        "relative rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
-        isActive ? "text-white" : "text-muted"
+        "relative rounded-sm px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tiffany/40",
+        isActive ? "text-paper" : "text-inkFaded hover:text-ink"
       )}
       type="button"
     >
-      {isActive ? (
+      {isActive && (
         <motion.span
           layoutId="tab-bg"
-          className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-accent shadow-glow"
+          className="absolute inset-0 rounded-sm bg-ink"
           transition={{
-            duration: reduceMotion ? 0 : 0.25,
-            ease: "easeOut"
+            duration: reduceMotion ? 0 : 0.2,
+            ease: [0.4, 0, 0.2, 1]
           }}
         />
-      ) : null}
+      )}
       <span className="relative z-10">{children}</span>
     </button>
   );
@@ -95,7 +95,18 @@ export function TabsContent({
   children: React.ReactNode;
 }) {
   const ctx = React.useContext(TabsContext);
+  const reduceMotion = useReducedMotion();
   if (!ctx) throw new Error("TabsContent must be used inside Tabs");
   if (ctx.value !== value) return null;
-  return <div className="pt-2">{children}</div>;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: reduceMotion ? 0 : 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+      className="pt-2"
+    >
+      {children}
+    </motion.div>
+  );
 }

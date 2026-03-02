@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Badge } from "./ui/badge";
 
 type Props = {
   name: string;
@@ -13,33 +12,44 @@ type Props = {
 export function SkillCard({ name, description, level }: Props) {
   return (
     <motion.div
-      whileHover={{ translateY: -4 }}
-      className="group relative overflow-hidden rounded-2xl border border-border bg-white/80 p-4 shadow-soft backdrop-blur-soft"
+      initial={{ opacity: 0, y: 8 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+      whileHover={{ y: -3 }}
+      className="group relative overflow-hidden rounded-sm border border-fold bg-paper/80 p-4 shadow-paper transition-all hover:border-tiffany/30 hover:shadow-lifted"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-white to-accent/10 opacity-0 transition group-hover:opacity-100" />
       <div className="relative flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-2">
-          <h3 className="text-lg font-semibold text-ink">{name}</h3>
-          <Badge variant="outline" className="text-xs">
+        {/* Header with name and level indicator */}
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="text-base font-medium text-ink">{name}</h3>
+          <span className="shrink-0 rounded-sm border border-fold bg-paperWarm px-2 py-0.5 text-xs font-medium text-inkFaded">
             {levelLabel(level)}
-          </Badge>
+          </span>
         </div>
-        <p className="line-clamp-2 text-sm text-muted">{description}</p>
-        <div className="flex items-center gap-1">
+
+        {/* Description */}
+        <p className="line-clamp-2 text-sm leading-relaxed text-inkLight">{description}</p>
+
+        {/* Progress bar style level indicator */}
+        <div className="flex items-center gap-0.5">
           {Array.from({ length: 5 }).map((_, index) => {
             const active = index < level;
             return (
-              <span
+              <div
                 key={index}
                 className={cn(
-                  "h-2 w-2 rounded-full",
-                  active ? "bg-primary" : "bg-muted/20"
+                  "h-1 flex-1 rounded-full transition-colors",
+                  active ? "bg-tiffany" : "bg-fold"
                 )}
               />
             );
           })}
         </div>
       </div>
+
+      {/* Hover accent */}
+      <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-tiffany transition-all duration-300 group-hover:w-full" />
     </motion.div>
   );
 }
@@ -47,6 +57,6 @@ export function SkillCard({ name, description, level }: Props) {
 function levelLabel(level: number) {
   if (level >= 5) return "Expert";
   if (level === 4) return "Advanced";
-  if (level === 3) return "Comfortable";
+  if (level === 3) return "Proficient";
   return "Learning";
 }

@@ -3,26 +3,30 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Mail, Linkedin, ArrowRight, Sparkles, HeartPulse, GraduationCap, MapPin } from "lucide-react";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+import { Mail, Linkedin, ArrowRight, MapPin, Calendar } from "lucide-react";
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
   const [flipped, setFlipped] = useState(false);
 
   const container = {
-    hidden: { opacity: 0, y: reduceMotion ? 0 : 12 },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: 0,
-      transition: { staggerChildren: reduceMotion ? 0 : 0.08 }
+      transition: {
+        staggerChildren: reduceMotion ? 0 : 0.12,
+        delayChildren: reduceMotion ? 0 : 0.2
+      }
     }
   };
 
   const item = {
-    hidden: { opacity: 0, y: reduceMotion ? 0 : 12 },
-    show: { opacity: 1, y: 0 }
+    hidden: { opacity: 0, y: reduceMotion ? 0 : 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
   };
 
   return (
@@ -30,168 +34,200 @@ export function Hero() {
       variants={container}
       initial="hidden"
       animate="show"
-      className="grid gap-10 pt-6 lg:grid-cols-2 lg:items-center"
+      className="relative py-12 lg:py-20"
     >
-      <div className="flex flex-col gap-4">
-        <motion.div variants={item} className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
-          <HeartPulse className="h-4 w-4 text-accent" />
-          <span>Software engineer • human-first</span>
-        </motion.div>
-
-        <motion.h1
-          variants={item}
-          className="text-4xl font-bold leading-tight tracking-tight text-ink sm:text-5xl"
-        >
-          Turning bold ideas into shipped software.
-        </motion.h1>
-
-        <motion.p variants={item} className="text-lg text-muted">
-          I thrive at the intersection of technology and venture innovation—building human-first products that make a real impact.
-        </motion.p>
-
-        <motion.p variants={item} className="text-lg text-muted">
-          I&apos;m Amanda Yin — a senior in{" "}
-          <a
-            href="https://utsc.calendar.utoronto.ca/section/Computer-Science"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="text-ink underline decoration-primary/50 underline-offset-4"
-          >
-            Computer Science (Software Engineering Stream)
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://utsc.calendar.utoronto.ca/major-program-statistics-science-scmaj2289"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="text-ink underline decoration-primary/50 underline-offset-4"
-          >
-            Statistics
-          </a>{" "}
-          at the{" "}
-          <a
-            href="https://www.utoronto.ca/"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="text-ink underline decoration-primary/50 underline-offset-4"
-          >
-            University of Toronto
-          </a>
-          . I build reliable, human-centered software and scout at{" "}
-          <a
-            href="https://www.lvlup.vc/"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="text-ink underline decoration-primary/50 underline-offset-4"
-          >
-            LvlUp Ventures
-          </a>
-          .
-        </motion.p>
-
-        <motion.div
-          variants={item}
-          className="flex flex-wrap items-center gap-3"
-        >
-          <Badge variant="soft">Incoming SWE @ Boosted.ai (W26)</Badge>
-          <Badge variant="soft">SWE Intern @ Microsoft (S25)</Badge>
-          <Badge variant="soft">LvlUp Ventures scout</Badge>
-          <Badge variant="soft">DSI research scholar (LLM quantization)</Badge>
-        </motion.div>
-
-        <motion.div
-          variants={item}
-          className="flex flex-wrap items-center gap-3"
-        >
-          <Button asChild>
-            <a
-              className="group"
-              href="/CV_Amanda_Yin_25.pdf"
-              target="_blank"
-              rel="noreferrer"
-            >
-              View CV
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
-          </Button>
-          <Button variant="secondary" asChild>
-            <a href="mailto:yixin.yin@mail.utoronto.ca">
-              <Mail className="h-4 w-4" />
-              Email me
-            </a>
-          </Button>
-          <Button variant="outline" asChild>
-            <a
-              href="https://www.linkedin.com/in/amanda-yin/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Linkedin className="h-4 w-4" />
-              LinkedIn
-            </a>
-          </Button>
-        </motion.div>
-      </div>
-
+      {/* Letter paper container */}
       <motion.div
         variants={item}
-        className="relative grid gap-4 rounded-2xl bg-white/70 p-4 shadow-soft backdrop-blur-soft lg:p-6"
+        className="letter-paper rounded-sm p-8 md:p-12 lg:p-16"
       >
-        <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-primary/14 via-white to-accent/12 blur-3xl" />
-        <div className="flex items-center justify-between rounded-xl bg-white/80 p-3">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-sm font-bold text-white shadow-glow">
-              AY
-            </span>
-            <div>
-              <p className="text-sm text-muted">Currently</p>
-              <p className="font-semibold text-ink">
-                Building at Boosted.ai • SWE Intern
+        {/* Date stamp - like a letter */}
+        <motion.div variants={item} className="mb-8 text-right">
+          <span className="font-hand text-xl text-inkFaded">
+            {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+          </span>
+        </motion.div>
+
+        {/* Salutation */}
+        <motion.div variants={item} className="mb-6">
+          <p className="font-hand text-2xl text-inkFaded">Dear visitor,</p>
+        </motion.div>
+
+        {/* Main content - letter body */}
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+          {/* Left - Introduction */}
+          <div className="space-y-6">
+            {/* Name as signature */}
+            <motion.div variants={item}>
+              <h1 className="font-serif text-4xl font-medium leading-tight text-ink sm:text-5xl lg:text-6xl">
+                I'm Amanda Yin
+              </h1>
+              <p className="mt-2 font-hand text-2xl text-tiffany">
+                software engineer & builder
               </p>
-            </div>
-          </div>
-          <Sparkles className="h-5 w-5 text-primary" />
-        </div>
+            </motion.div>
 
-        <div className="flex flex-col gap-3">
-          <div
-            className="relative overflow-hidden rounded-2xl bg-white/90 shadow-soft [perspective:1200px] aspect-[4/3]"
-          >
-            <div
-              className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 ease-in-out"
-              style={{
-                transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-                transition: "transform 0.45s ease-in-out"
-              }}
-              onMouseEnter={() => setFlipped(true)}
-              onMouseLeave={() => setFlipped(false)}
-              onClick={() => setFlipped((v) => !v)}
-            >
-            <div className="absolute inset-0 h-full w-full rounded-2xl [backface-visibility:hidden]">
-              <Image
-                src="/profile.jpg"
-                alt="Portrait of Amanda Yin"
-                width={1200}
-                  height={800}
-                  className="h-full w-full rounded-2xl object-cover"
-                />
+            {/* Letter body - personal introduction */}
+            <motion.div variants={item} className="space-y-4 text-inkLight leading-relaxed">
+              <p>
+                I'm a software engineer who believes technology should feel{" "}
+                <span className="text-ink font-medium">human</span>. Currently wrapping up my senior year studying{" "}
+                <a
+                  href="https://utsc.calendar.utoronto.ca/section/Computer-Science"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="link-ink link-tiffany text-tiffany"
+                >
+                  Computer Science
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://utsc.calendar.utoronto.ca/major-program-statistics-science-scmaj2289"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="link-ink link-tiffany text-tiffany"
+                >
+                  Statistics
+                </a>{" "}
+                at the University of Toronto.
+              </p>
+              <p>
+                When I'm not writing code, I'm scouting early-stage startups at{" "}
+                <a
+                  href="https://www.lvlup.vc/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="link-ink link-tiffany text-tiffany"
+                >
+                  LvlUp Ventures
+                </a>
+                , looking for founders building something meaningful.
+              </p>
+            </motion.div>
+
+            {/* Experience notes */}
+            <motion.div variants={item} className="flex flex-wrap gap-3 pt-2">
+              {["Microsoft W26", "Boosted.ai S25", "LvlUp Scout", "LLM Research"].map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-sm border border-border bg-paper px-3 py-1.5 text-xs font-medium text-inkFaded transition-colors hover:border-tiffany/30 hover:text-ink"
+                >
+                  {tag}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* Signature & CTAs */}
+            <motion.div variants={item} className="space-y-6 pt-6">
+              <div className="hr-ornament" />
+
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <a
+                  href="/CV_Amanda_Yin_25.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group inline-flex items-center gap-2 rounded-sm bg-ink px-5 py-3 text-sm font-medium text-paper transition-all hover:bg-inkLight"
+                >
+                  Read my CV
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+                <a
+                  href="mailto:yixin.yin@mail.utoronto.ca"
+                  className="group inline-flex items-center gap-2 rounded-sm border border-borderDark bg-transparent px-5 py-3 text-sm font-medium text-ink transition-all hover:border-tiffany hover:text-tiffany"
+                >
+                  <Mail className="h-4 w-4" />
+                  Write to me
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/amanda-yin/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-inkFaded transition-colors hover:text-tiffany"
+                >
+                  <Linkedin className="h-4 w-4" />
+                  LinkedIn
+                </a>
               </div>
-              <div className="absolute inset-0 flex h-full w-full items-center justify-center rounded-2xl bg-white/92 px-6 text-center text-sm text-muted [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                Photo taken in traditional Miao minority costume in Yunnan province, China.
+
+              {/* Handwritten signature */}
+              <div className="pt-4">
+                <p className="font-hand text-3xl text-ink">~ Amanda</p>
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          <div className="grid gap-3 rounded-xl bg-white/60 p-4 text-sm text-muted">
-            <div className="flex items-center gap-2 text-ink">
-              <GraduationCap className="h-4 w-4 text-primary" />
-              <span className="font-semibold">Senior in Computer Science &amp; Statistics</span>
+          {/* Right - Photo card */}
+          <motion.div variants={item} className="relative">
+            {/* Polaroid-style photo */}
+            <div className="paper-card rounded-sm p-3">
+              {/* Photo with flip */}
+              <div
+                className="relative aspect-[4/3] cursor-pointer overflow-hidden rounded-sm bg-paperDark [perspective:1200px]"
+                onMouseEnter={() => setFlipped(true)}
+                onMouseLeave={() => setFlipped(false)}
+                onClick={() => setFlipped((v) => !v)}
+              >
+                <motion.div
+                  className="relative h-full w-full [transform-style:preserve-3d]"
+                  animate={{ rotateY: flipped ? 180 : 0 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {/* Front - Photo */}
+                  <div className="absolute inset-0 h-full w-full [backface-visibility:hidden]">
+                    <Image
+                      src="/profile.jpg"
+                      alt="Portrait of Amanda Yin"
+                      width={1200}
+                      height={800}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  {/* Back - Caption */}
+                  <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-paper px-6 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <div>
+                      <p className="font-hand text-2xl text-ink leading-relaxed">
+                        Traditional Miao minority costume
+                      </p>
+                      <p className="mt-2 text-sm text-inkFaded">
+                        Yunnan province, China
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Polaroid caption */}
+              <div className="pt-4 pb-2 text-center">
+                <p className="font-hand text-xl text-inkFaded">Toronto, 2024</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-ink">
-              <MapPin className="h-4 w-4 text-primary" />
-              <span className="font-semibold">Based in Toronto · open to global collaboration</span>
+
+            {/* Info cards */}
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="paper-card rounded-sm px-4 py-3">
+                <div className="flex items-center gap-2 text-inkFaded">
+                  <Calendar className="h-4 w-4" />
+                  <span className="text-xs">Currently</span>
+                </div>
+                <p className="mt-1 text-sm font-medium text-ink">SWE @ Boosted.ai</p>
+              </div>
+              <div className="paper-card rounded-sm px-4 py-3">
+                <div className="flex items-center gap-2 text-inkFaded">
+                  <MapPin className="h-4 w-4" />
+                  <span className="text-xs">Based in</span>
+                </div>
+                <p className="mt-1 text-sm font-medium text-ink">Toronto, CA</p>
+              </div>
             </div>
-          </div>
+
+            {/* Decorative stamp */}
+            <div className="absolute -right-2 -top-2 rotate-12">
+              <div className="stamp-accent h-16 w-16">
+                <span className="font-hand text-xl text-tiffany">A.Y.</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </motion.section>

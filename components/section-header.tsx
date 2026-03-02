@@ -1,4 +1,6 @@
-import { Sparkles } from "lucide-react";
+"use client";
+
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export function SectionHeader({
@@ -13,21 +15,29 @@ export function SectionHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-2", className)}>
-      {eyebrow ? (
-        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted">
-          <Sparkles className="h-3.5 w-3.5 text-primary" />
-          <span>{eyebrow}</span>
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      className={cn("flex flex-col gap-3", className)}
+    >
+      {eyebrow && (
+        <div className="inline-flex w-fit items-center gap-2">
+          <span className="h-px w-8 bg-tiffany/40" />
+          <span className="font-hand text-sm tracking-wide text-tiffany">
+            {eyebrow}
+          </span>
         </div>
-      ) : null}
-      <div className="flex items-center gap-3">
-        <h2 className="text-3xl font-bold tracking-tight text-ink sparkle">
-          {title}
-        </h2>
-      </div>
-      {description ? (
-        <p className="max-w-2xl text-base text-muted">{description}</p>
-      ) : null}
-    </div>
+      )}
+      <h2 className="font-serif text-2xl font-medium tracking-tight text-ink sm:text-3xl">
+        {title}
+      </h2>
+      {description && (
+        <p className="max-w-2xl text-base leading-relaxed text-inkFaded">
+          {description}
+        </p>
+      )}
+    </motion.div>
   );
 }

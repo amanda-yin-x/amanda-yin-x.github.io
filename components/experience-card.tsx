@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, MapPin } from "lucide-react";
+import { Building2, MapPin, Calendar } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { motion } from "framer-motion";
 
@@ -25,49 +25,60 @@ export function ExperienceCard({
 }: Props) {
   return (
     <motion.article
-      whileHover={{ translateY: -6 }}
-      className="relative overflow-hidden rounded-2xl border border-border bg-white/80 p-6 shadow-soft backdrop-blur-soft"
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      whileHover={{ y: -4 }}
+      className="group relative overflow-hidden rounded-sm border border-fold bg-paper/80 p-6 shadow-paper transition-all hover:border-tiffany/30 hover:shadow-lifted"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-white to-accent/8" />
-      <div className="relative flex flex-col gap-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2 text-sm text-muted">
-              <Building2 className="h-4 w-4 text-primary" />
-              <span className="font-semibold text-ink">{company}</span>
-              {team ? <span className="text-muted">· {team}</span> : null}
-            </div>
-            <h3 className="text-xl font-semibold text-ink">{title}</h3>
-          </div>
-          <Badge variant="outline">{timeframe}</Badge>
-        </div>
+      {/* Subtle accent line */}
+      <div className="absolute left-0 top-0 h-full w-0.5 bg-gradient-to-b from-tiffany via-tiffany/50 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
-        <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
-          <Badge variant="soft" className="bg-white/70">
-            <MapPin className="h-4 w-4 text-primary" />
-            {location}
+      <div className="relative flex flex-col gap-4">
+        {/* Header */}
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 text-sm">
+              <Building2 className="h-4 w-4 text-tiffany" />
+              <span className="font-medium text-ink">{company}</span>
+              {team && <span className="text-inkFaded">/ {team}</span>}
+            </div>
+            <h3 className="font-serif text-lg font-medium text-ink">{title}</h3>
+          </div>
+          <Badge variant="outline" className="shrink-0">
+            <Calendar className="h-3 w-3" />
+            {timeframe}
           </Badge>
         </div>
 
-        <ul className="relative grid gap-2 pl-4 text-sm text-muted">
-          {highlights.map((item) => (
-            <li key={item} className="list-disc">
-              {item}
+        {/* Location */}
+        <div className="flex items-center gap-2 text-sm text-inkFaded">
+          <MapPin className="h-3.5 w-3.5" />
+          <span>{location}</span>
+        </div>
+
+        {/* Highlights */}
+        <ul className="space-y-2 text-sm text-inkLight">
+          {highlights.map((item, index) => (
+            <li key={index} className="flex gap-3">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-tiffany/60" />
+              <span>{item}</span>
             </li>
           ))}
         </ul>
 
-        <div className="flex flex-wrap gap-2">
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 pt-2">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-border bg-white/70 px-3 py-1 text-xs font-semibold text-muted transition hover:-translate-y-0.5 hover:shadow-soft"
+              className="rounded-sm border border-fold bg-paperWarm px-2 py-0.5 text-xs font-medium text-inkFaded transition-colors hover:border-tiffany/30 hover:text-ink"
             >
               {tag}
             </span>
           ))}
         </div>
-
       </div>
     </motion.article>
   );

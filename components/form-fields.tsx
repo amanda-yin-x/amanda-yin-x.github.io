@@ -6,11 +6,11 @@ export function Input({
   ...props
 }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
-    <label className="flex flex-col gap-1 text-sm font-semibold text-ink">
-      {label}
+    <label className="flex flex-col gap-1.5">
+      <span className="text-sm font-medium text-ink">{label}</span>
       <input
         className={cn(
-          "w-full rounded-xl border border-border bg-white/80 px-3 py-2 text-sm text-ink shadow-soft transition placeholder:text-muted/70 focus:border-primary/50 focus:outline-none",
+          "w-full rounded-sm border border-fold bg-paper px-3 py-2.5 text-sm text-ink transition-colors placeholder:text-inkWash focus:border-tiffany focus:outline-none focus:ring-2 focus:ring-tiffany/10",
           className
         )}
         {...props}
@@ -25,11 +25,11 @@ export function Textarea({
   ...props
 }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string }) {
   return (
-    <label className="flex flex-col gap-1 text-sm font-semibold text-ink">
-      {label}
+    <label className="flex flex-col gap-1.5">
+      <span className="text-sm font-medium text-ink">{label}</span>
       <textarea
         className={cn(
-          "min-h-[120px] w-full rounded-xl border border-border bg-white/80 px-3 py-2 text-sm text-ink shadow-soft transition placeholder:text-muted/70 focus:border-primary/50 focus:outline-none",
+          "min-h-[140px] w-full resize-y rounded-sm border border-fold bg-paper px-3 py-2.5 text-sm text-ink transition-colors placeholder:text-inkWash focus:border-tiffany focus:outline-none focus:ring-2 focus:ring-tiffany/10",
           className
         )}
         {...props}
