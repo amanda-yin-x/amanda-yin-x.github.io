@@ -51,27 +51,8 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menu when clicking outside (with delay to allow link navigation)
-  useEffect(() => {
-    if (!open) return;
-    const handleClick = (e: MouseEvent) => {
-      // Don't close if clicking inside the dropdown
-      const target = e.target as HTMLElement;
-      if (target.closest('[data-dropdown]')) return;
-      setOpen(false);
-    };
-    // Use capture phase with slight delay
-    const timeoutId = setTimeout(() => {
-      document.addEventListener("click", handleClick);
-    }, 0);
-    return () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener("click", handleClick);
-    };
-  }, [open]);
-
   return (
-    <header className="sticky top-0 z-40">
+    <header className="sticky top-0 z-[70]">
       <motion.div
         className={`transition-all duration-300 ${
           scrolled
@@ -202,6 +183,7 @@ export function Navigation() {
                               >
                                 <Link
                                   href={link.href}
+                                  onClick={() => setOpen(false)}
                                   className={`flex items-center justify-between rounded-2xl px-3 py-2.5 transition-all ${
                                     active
                                       ? "bg-gradient-to-r from-tiffanyMuted to-[#dff7f4] text-tiffany"

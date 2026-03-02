@@ -80,6 +80,7 @@ export function Hero() {
   const [flipped, setFlipped] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
   const [isPhotoHovered, setIsPhotoHovered] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [typedGreeting, setTypedGreeting] = useState(
     reduceMotion ? GREETING : ""
   );
@@ -119,6 +120,16 @@ export function Hero() {
       window.removeEventListener("focus", syncPhotoIndex);
       document.removeEventListener("visibilitychange", syncPhotoIndex);
     };
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(hover: none), (pointer: coarse)");
+    const updateTouchMode = () => setIsTouchDevice(mediaQuery.matches);
+
+    updateTouchMode();
+    mediaQuery.addEventListener("change", updateTouchMode);
+
+    return () => mediaQuery.removeEventListener("change", updateTouchMode);
   }, []);
 
   useEffect(() => {
@@ -360,12 +371,18 @@ export function Hero() {
               <div
                 className="relative aspect-[4/5] overflow-hidden rounded-sm bg-paperDark [perspective:1200px]"
                 onMouseEnter={() => {
+                  if (isTouchDevice) return;
                   setIsPhotoHovered(true);
                   setFlipped(true);
                 }}
                 onMouseLeave={() => {
+                  if (isTouchDevice) return;
                   setIsPhotoHovered(false);
                   setFlipped(false);
+                }}
+                onClick={() => {
+                  if (!isTouchDevice) return;
+                  setFlipped((current) => !current);
                 }}
               >
                 <motion.div
