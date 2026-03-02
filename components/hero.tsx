@@ -199,7 +199,7 @@ export function Hero() {
 
               {/* Polaroid caption */}
               <div className="pt-4 pb-2 text-center">
-                <p className="font-hand text-xl text-inkFaded">Toronto, 2024</p>
+                <p className="font-hand text-xl text-inkFaded">Yunnan, 2024</p>
               </div>
             </div>
 

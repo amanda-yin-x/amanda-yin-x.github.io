@@ -7,11 +7,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Download, Menu, X, ArrowUpRight } from "lucide-react";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/experience", label: "Experience" },
-  { href: "/skills", label: "Skills" },
-  { href: "/entrepreneurship", label: "Ventures" },
-  { href: "/contact", label: "Contact" }
+  { href: "/", label: "Home", handwritten: true },
+  { href: "/experience", label: "Experience", handwritten: true },
+  { href: "/skills", label: "Skills", handwritten: true },
+  { href: "/entrepreneurship", label: "Ventures", handwritten: true },
+  { href: "/contact", label: "Contact", handwritten: true }
 ];
 
 export function Navigation() {
@@ -142,13 +142,13 @@ export function Navigation() {
                           >
                             <Link
                               href={link.href}
-                              className={`flex items-center justify-between rounded-sm px-3 py-2 text-sm font-medium transition-colors ${
+                              className={`flex items-center justify-between rounded-sm px-3 py-2 transition-colors ${
                                 active
                                   ? "bg-tiffanyMuted text-tiffany"
                                   : "text-ink hover:bg-paperDark"
                               }`}
                             >
-                              <span>{link.label}</span>
+                              <span className="font-hand text-lg">{link.label}</span>
                               <ArrowUpRight className={`h-3.5 w-3.5 ${active ? "text-tiffany" : "text-inkWash"}`} />
                             </Link>
                           </motion.div>

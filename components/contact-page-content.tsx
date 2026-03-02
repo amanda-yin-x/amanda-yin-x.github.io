@@ -45,7 +45,7 @@ export function ContactPageContent() {
       <SectionHeader
         eyebrow="Contact"
         title="Let's connect"
-        description="Whether it's about product ideas, research, internships, or just a friendly chat."
+        description="Whether it's about research, internships, or just a friendly chat."
       />
 
       {/* Main Calendly CTA */}

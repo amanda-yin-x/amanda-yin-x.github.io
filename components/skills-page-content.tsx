@@ -51,8 +51,7 @@ export function SkillsPageContent() {
       <div className="mt-6 space-y-16">
         <SectionHeader
           eyebrow="Skills"
-          title="Core stack, systems depth, and how I work"
-          description="Signal-only. Calm, intentional, and confident."
+          title="How I work"
         />
 
         {/* Core Stack */}
