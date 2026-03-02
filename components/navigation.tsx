@@ -39,6 +39,14 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = () => setOpen(false);
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [open]);
+
   return (
     <header className="sticky top-0 z-40">
       <motion.div
@@ -62,138 +70,112 @@ export function Navigation() {
             </span>
           </Link>
 
-          {/* Desktop navigation */}
-          <nav className="hidden items-center gap-1 md:flex">
-            {links.map((link) => {
-              const active = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors ${
-                    active ? "text-tiffany" : "text-inkFaded hover:text-ink"
-                  }`}
-                >
-                  {link.label}
-                  {active && (
-                    <motion.span
-                      layoutId="nav-indicator"
-                      className="absolute inset-x-1 -bottom-0.5 h-px bg-tiffany"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
-
           <div className="flex items-center gap-3">
+            {/* CV Download button - always visible */}
             <Link
               href="/CV_Amanda_Yin_25.pdf"
               target="_blank"
               rel="noreferrer"
-              className="hidden items-center gap-2 rounded-sm border border-borderDark bg-paper px-4 py-2 text-sm font-medium text-ink transition-all hover:border-tiffany hover:text-tiffany sm:inline-flex"
+              className="inline-flex items-center gap-2 rounded-sm border border-borderDark bg-paper px-3 py-2 text-sm font-medium text-ink transition-all hover:border-tiffany hover:text-tiffany"
             >
               <Download className="h-4 w-4" />
-              CV
+              <span className="hidden sm:inline">CV</span>
             </Link>
 
-            {/* Mobile menu button */}
-            <button
-              type="button"
-              aria-label={open ? "Close menu" : "Open menu"}
-              aria-expanded={open}
-              onClick={() => setOpen((v) => !v)}
-              className="flex h-10 w-10 items-center justify-center rounded-sm border border-border bg-paper text-ink transition-all hover:border-tiffany focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tiffany/40 md:hidden"
-            >
-              <AnimatePresence initial={false} mode="wait">
-                {open ? (
-                  <motion.span
-                    key="close"
-                    initial={{ opacity: 0, rotate: -90 }}
-                    animate={{ opacity: 1, rotate: 0 }}
-                    exit={{ opacity: 0, rotate: 90 }}
-                    transition={{ duration: 0.15 }}
+            {/* Hamburger menu button - always visible */}
+            <div className="relative">
+              <button
+                type="button"
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-expanded={open}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpen((v) => !v);
+                }}
+                className="flex h-10 w-10 items-center justify-center rounded-sm border border-border bg-paper text-ink transition-all hover:border-tiffany focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tiffany/40"
+              >
+                <AnimatePresence initial={false} mode="wait">
+                  {open ? (
+                    <motion.span
+                      key="close"
+                      initial={{ opacity: 0, rotate: -90 }}
+                      animate={{ opacity: 1, rotate: 0 }}
+                      exit={{ opacity: 0, rotate: 90 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <X className="h-5 w-5" />
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="menu"
+                      initial={{ opacity: 0, rotate: 90 }}
+                      animate={{ opacity: 1, rotate: 0 }}
+                      exit={{ opacity: 0, rotate: -90 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <Menu className="h-5 w-5" />
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+
+              {/* Dropdown menu */}
+              <AnimatePresence>
+                {open && (
+                  <motion.div
+                    className="absolute right-0 top-full z-50 mt-2 w-48 rounded-sm border border-border bg-paper p-2 shadow-paperLifted"
+                    initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <X className="h-5 w-5" />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="menu"
-                    initial={{ opacity: 0, rotate: 90 }}
-                    animate={{ opacity: 1, rotate: 0 }}
-                    exit={{ opacity: 0, rotate: -90 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <Menu className="h-5 w-5" />
-                  </motion.span>
+                    <nav className="flex flex-col">
+                      {links.map((link, index) => {
+                        const active = pathname === link.href;
+                        return (
+                          <motion.div
+                            key={link.href}
+                            initial={{ opacity: 0, x: -8 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.03 }}
+                          >
+                            <Link
+                              href={link.href}
+                              className={`flex items-center justify-between rounded-sm px-3 py-2 text-sm font-medium transition-colors ${
+                                active
+                                  ? "bg-tiffanyMuted text-tiffany"
+                                  : "text-ink hover:bg-paperDark"
+                              }`}
+                            >
+                              <span>{link.label}</span>
+                              <ArrowUpRight className={`h-3.5 w-3.5 ${active ? "text-tiffany" : "text-inkWash"}`} />
+                            </Link>
+                          </motion.div>
+                        );
+                      })}
+                    </nav>
+                  </motion.div>
                 )}
               </AnimatePresence>
-            </button>
+            </div>
           </div>
         </div>
-
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {open && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-40 bg-ink/10 backdrop-blur-sm md:hidden"
-                onClick={() => setOpen(false)}
-              />
-              <motion.div
-                className="absolute right-4 top-full z-50 mt-2 w-[calc(100vw-2rem)] max-w-xs rounded-sm border border-border bg-paper p-2 shadow-paperLifted md:hidden"
-                initial={{ opacity: 0, y: -8, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <nav className="flex flex-col">
-                  {links.map((link, index) => {
-                    const active = pathname === link.href;
-                    return (
-                      <motion.div
-                        key={link.href}
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                      >
-                        <Link
-                          href={link.href}
-                          className={`flex items-center justify-between rounded-sm px-3 py-2.5 text-sm font-medium transition-colors ${
-                            active
-                              ? "bg-tiffanyMuted text-tiffany"
-                              : "text-ink hover:bg-paperDark"
-                          }`}
-                        >
-                          <span>{link.label}</span>
-                          <ArrowUpRight className={`h-4 w-4 ${active ? "text-tiffany" : "text-inkWash"}`} />
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
-                  <div className="mt-2 border-t border-border pt-2">
-                    <Link
-                      href="/CV_Amanda_Yin_25.pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex w-full items-center justify-center gap-2 rounded-sm bg-ink px-4 py-2.5 text-sm font-medium text-paper transition-all hover:bg-inkLight"
-                    >
-                      <Download className="h-4 w-4" />
-                      Download CV
-                    </Link>
-                  </div>
-                </nav>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
       </motion.div>
+
+      {/* Backdrop overlay when menu is open */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-30 bg-ink/5"
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </header>
   );
 }
