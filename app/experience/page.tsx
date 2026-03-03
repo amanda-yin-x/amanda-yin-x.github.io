@@ -16,7 +16,7 @@ const filters: { value: ExperienceCategory; label: string }[] = [
 export const metadata: Metadata = {
   title: "Experience · Amanda Yin",
   description:
-    "Internships, research, and teaching - the projects and teams that taught Amanda Yin how to build with range."
+    "A more human timeline of the teams, experiments, and side quests Amanda Yin has learned from."
 };
 
 const preferredOrderByFilter: Partial<Record<ExperienceCategory, string[]>> = {
@@ -70,8 +70,8 @@ export default function ExperiencePage() {
         <div className="mt-4 space-y-8">
           <SectionHeader
             eyebrow="Experience"
-            title="A timeline with a little more personality"
-            description="Internships, research, and one teaching detour. Hover around - each stop has its own mood."
+            title="A timeline of side quests, plot twists, and places that taught me things"
+            description="A few teams, a few rabbit holes, and a surprising amount of learning packed into one scroll."
           />
 
           <Tabs defaultValue="all">
