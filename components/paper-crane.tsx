@@ -9,9 +9,12 @@ import {
   useSpring,
   useTransform
 } from "framer-motion";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const INTRO_KEY = "paper-crane-intro-seen-v5";
+const CONTENT_REVEAL_AT = 0.2;
+const INTRO_RELEASE_AT = 0.2;
+const INTRO_FINISH_AT = 0.22;
 
 type IntroState = "checking" | "intro" | "revealed";
 
@@ -23,6 +26,7 @@ export function PaperCrane({
   const reduceMotion = useReducedMotion() ?? false;
   const [state, setState] = useState<IntroState>("checking");
   const [isFinishing, setIsFinishing] = useState(false);
+  const [interactionReleased, setInteractionReleased] = useState(false);
   const progress = useMotionValue(0);
   const smoothProgress = useSpring(progress, {
     stiffness: 140,
@@ -32,18 +36,38 @@ export function PaperCrane({
   const touchStartY = useRef<number | null>(null);
   const finishStarted = useRef(false);
 
+  const finishIntro = useCallback(() => {
+    if (finishStarted.current) return;
+    finishStarted.current = true;
+    setIsFinishing(true);
+
+    animate(progress, 1, {
+      duration: 0.28,
+      ease: [0.22, 1, 0.36, 1],
+      onComplete: () => {
+        window.sessionStorage.setItem(INTRO_KEY, "true");
+        setState("revealed");
+      }
+    });
+  }, [progress]);
+
   useLayoutEffect(() => {
     if (reduceMotion) {
       setState("revealed");
       return;
     }
 
+    finishStarted.current = false;
+    setIsFinishing(false);
+    setInteractionReleased(false);
+    progress.set(0);
+
     const seen = window.sessionStorage.getItem(INTRO_KEY);
     setState(seen ? "revealed" : "intro");
-  }, [reduceMotion]);
+  }, [progress, reduceMotion]);
 
   useEffect(() => {
-    if (state !== "intro") return;
+    if (state !== "intro" || interactionReleased) return;
 
     const previousHtmlOverflow = document.documentElement.style.overflow;
     const previousBodyOverflow = document.body.style.overflow;
@@ -55,32 +79,17 @@ export function PaperCrane({
       document.documentElement.style.overflow = previousHtmlOverflow;
       document.body.style.overflow = previousBodyOverflow;
     };
-  }, [state]);
+  }, [interactionReleased, state]);
 
   useEffect(() => {
     if (state !== "intro") return;
-
-    const finishIntro = () => {
-      if (finishStarted.current) return;
-      finishStarted.current = true;
-      setIsFinishing(true);
-
-      animate(progress, 1, {
-        duration: 0.38,
-        ease: [0.22, 1, 0.36, 1],
-        onComplete: () => {
-          window.sessionStorage.setItem(INTRO_KEY, "true");
-          setState("revealed");
-        }
-      });
-    };
 
     const nudgeProgress = (delta: number) => {
       if (finishStarted.current) return;
       const next = Math.max(0, Math.min(progress.get() + delta, 1));
       progress.set(next);
 
-      if (next >= 0.96) {
+      if (next >= INTRO_FINISH_AT) {
         finishIntro();
       }
     };
@@ -128,7 +137,22 @@ export function PaperCrane({
       window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [progress, state]);
+  }, [finishIntro, progress, state]);
+
+  useEffect(() => {
+    if (state !== "intro") return;
+
+    const unsubscribe = smoothProgress.on("change", (value) => {
+      if (value >= INTRO_RELEASE_AT) {
+        setInteractionReleased(true);
+      }
+      if (value >= INTRO_FINISH_AT) {
+        finishIntro();
+      }
+    });
+
+    return () => unsubscribe();
+  }, [finishIntro, smoothProgress, state]);
 
   const craneScale = useTransform(smoothProgress, [0, 0.22, 0.56], [1, 0.94, 0.48]);
   const craneY = useTransform(smoothProgress, [0, 0.56], [0, -110]);
@@ -147,9 +171,9 @@ export function PaperCrane({
   const overlayOpacity = useTransform(smoothProgress, [0.76, 1], [1, 0]);
   const promptOpacity = useTransform(smoothProgress, [0, 0.22, 0.32], [0.92, 0.92, 0]);
 
-  const contentOpacity = useTransform(smoothProgress, [0.48, 0.82], [0, 1]);
-  const contentY = useTransform(smoothProgress, [0.48, 0.82], [54, 0]);
-  const contentBlur = useTransform(smoothProgress, [0.48, 0.82], [10, 0]);
+  const contentOpacity = useTransform(smoothProgress, [CONTENT_REVEAL_AT, 0.42], [0, 1]);
+  const contentY = useTransform(smoothProgress, [CONTENT_REVEAL_AT, 0.42], [54, 0]);
+  const contentBlur = useTransform(smoothProgress, [CONTENT_REVEAL_AT, 0.42], [10, 0]);
   const contentFilter = useMotionTemplate`blur(${contentBlur}px)`;
 
   if (state === "checking") {
@@ -174,7 +198,9 @@ export function PaperCrane({
       </motion.div>
 
       <motion.div
-        className="fixed inset-0 z-[60] overflow-hidden bg-parchment"
+        className={`fixed inset-0 z-[60] overflow-hidden bg-parchment ${
+          isFinishing || interactionReleased ? "pointer-events-none" : ""
+        }`}
         style={{ opacity: overlayOpacity }}
       >
         <div className="paper-texture absolute inset-0" />

@@ -133,7 +133,7 @@ export function SkillsPageContent() {
         <SectionHeader
           eyebrow="Skills"
           title="The stack I reach for when I'm making stuff"
-          description="Less 'self-assessment dashboard,' more honest field notes from things I've actually shipped."
+          description="good stuff :D"
         />
 
         {/* Core Stack */}

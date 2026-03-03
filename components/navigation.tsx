@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Download, Menu, X, ArrowUpRight } from "lucide-react";
@@ -30,6 +31,11 @@ export function Navigation() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [quoteIndex, setQuoteIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setOpen(false);
@@ -51,12 +57,12 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  return (
-    <header className="sticky top-0 z-[70]">
+  const navMarkup = (
+    <header className="fixed inset-x-0 top-0 z-[1000]">
       <motion.div
         className={`transition-all duration-300 ${
           scrolled
-            ? "bg-parchment/95 backdrop-blur-sm border-b border-border shadow-paper"
+            ? "bg-parchment/95 border-b border-border shadow-paper"
             : "bg-transparent"
         }`}
         initial={{ y: -20, opacity: 0 }}
@@ -128,7 +134,7 @@ export function Navigation() {
                 {open && (
                   <motion.div
                     data-dropdown
-                    className="absolute right-0 top-full z-50 mt-2 w-72 rounded-3xl border border-border bg-paper/95 p-3 shadow-paperLifted backdrop-blur-sm"
+                    className="absolute right-0 top-full z-[1010] mt-2 w-72 rounded-3xl border border-border bg-paper/95 p-3 shadow-paperLifted"
                     initial={{ opacity: 0, y: -8, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -8, scale: 0.96 }}
@@ -219,11 +225,17 @@ export function Navigation() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-30 bg-ink/5"
+            className="fixed inset-0 z-[990] bg-ink/5"
             onClick={() => setOpen(false)}
           />
         )}
       </AnimatePresence>
     </header>
   );
+
+  if (!mounted) {
+    return navMarkup;
+  }
+
+  return createPortal(navMarkup, document.body);
 }
