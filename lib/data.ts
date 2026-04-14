@@ -27,11 +27,12 @@ export const experiences: Experience[] = [
     categories: ["swe"],
     detailHref: "/experience/boosted-ai",
     highlights: [
-      "Building agent evaluation and scoring pipelines with guardrails and RAG in the loop.",
-      "Built an abstract class library for gRPC centralization, including retry configs, timeout configs, and pooling mode selection.",
+      "Built an end-to-end LLM-powered recommendation engine as a standalone service, from architecture to production integration design.",
+      "Designed a multi-stage ranking pipeline and diversity-aware assignment strategy for agent template + stock recommendations.",
+      "Built an abstract gRPC client library for centralized retries, timeout configs, and pooling mode selection.",
       "Improved latency by up to 10x."
     ],
-    tags: ["Agent evals", "RAG", "gRPC", "Infra"],
+    tags: ["Recommender", "Agent evals", "gRPC", "Infra"],
     order: 202604
   },
   {
