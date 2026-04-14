@@ -296,6 +296,9 @@ export default function BoostedAiExperiencePage() {
               <p className="text-sm text-inkLight">
                 Includes updated resume access, technical artifacts, measurable outcomes, and reflection.
               </p>
+              <p className="text-sm text-inkLight">
+                Audience: recruiters, hiring managers, and technical interviewers evaluating SWE impact.
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <a
