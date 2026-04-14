@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Badge } from "./ui/badge";
-import { MapPin } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Experience } from "@/lib/data";
 
@@ -75,7 +76,7 @@ function TimelineCard({
   theme: CardTheme;
   isLeft: boolean;
 }) {
-  return (
+  const card = (
     <motion.article
       initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +92,8 @@ function TimelineCard({
       }
       className={cn(
         "group relative my-4 overflow-hidden rounded-[2rem] border p-6 shadow-paper transition-shadow duration-300",
-        theme.shell
+        theme.shell,
+        experience.detailHref && "cursor-pointer hover:shadow-paperLifted"
       )}
     >
       <div className={cn("absolute inset-0 bg-gradient-to-br opacity-95", theme.wash)} />
@@ -153,8 +155,29 @@ function TimelineCard({
             </span>
           ))}
         </div>
+
+        {experience.detailHref ? (
+          <div className="flex items-center justify-between pt-1">
+            <p className={cn("text-xs font-semibold uppercase tracking-[0.2em]", theme.kicker)}>
+              Read full work term notes
+            </p>
+            <ArrowUpRight className={cn("h-4 w-4", theme.kicker)} />
+          </div>
+        ) : null}
       </div>
     </motion.article>
+  );
+
+  if (!experience.detailHref) return card;
+
+  return (
+    <Link
+      href={experience.detailHref}
+      aria-label={`Read details about ${experience.company}`}
+      className="block rounded-[2rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tiffany/60 focus-visible:ring-offset-2 focus-visible:ring-offset-parchment"
+    >
+      {card}
+    </Link>
   );
 }
 

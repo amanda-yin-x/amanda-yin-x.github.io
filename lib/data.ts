@@ -12,6 +12,7 @@ export type Experience = {
   tags: string[];
   order: number;
   status?: string;
+  detailHref?: string;
 };
 
 export const experiences: Experience[] = [
@@ -24,6 +25,7 @@ export const experiences: Experience[] = [
     timeframe: "W26",
     status: "Current",
     categories: ["swe"],
+    detailHref: "/experience/boosted-ai",
     highlights: [
       "Building agent evaluation and scoring pipelines with guardrails and RAG in the loop.",
       "Built an abstract class library for gRPC centralization, including retry configs, timeout configs, and pooling mode selection.",
