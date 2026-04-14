@@ -183,7 +183,10 @@ export default function BoostedAiExperiencePage() {
             </div>
           </section>
 
-          <section className="space-y-4 rounded-[2rem] border border-[#b7e3dc] bg-[linear-gradient(180deg,_rgba(239,252,249,0.9),_rgba(255,255,255,0.95))] p-6 shadow-paper">
+          <section
+            id="agent-recommendation-engine"
+            className="space-y-4 rounded-[2rem] border border-[#b7e3dc] bg-[linear-gradient(180deg,_rgba(239,252,249,0.9),_rgba(255,255,255,0.95))] p-6 shadow-paper"
+          >
             <div className="space-y-2">
               <h2 className="font-serif text-2xl text-ink">
                 End-to-End Agent Recommendation Engine
@@ -293,14 +296,15 @@ export default function BoostedAiExperiencePage() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-inkWash">
                 ePortfolio checklist
               </p>
-              <p className="text-sm text-inkLight">
-                Includes updated resume access, technical artifacts, measurable outcomes, and reflection.
-              </p>
-              <p className="text-sm text-inkLight">
-                Audience: recruiters, hiring managers, and technical interviewers evaluating SWE impact.
-              </p>
             </div>
             <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="#agent-recommendation-engine"
+                className="inline-flex items-center gap-2 rounded-full border border-borderDark bg-white px-4 py-2 text-sm font-medium text-ink transition-colors hover:text-tiffany"
+              >
+                Go to End-to-End Agent Recommendation Engine
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
               <a
                 href="/CV_Amanda_Yin_25.pdf"
                 target="_blank"
