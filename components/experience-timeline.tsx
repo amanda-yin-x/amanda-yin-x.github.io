@@ -164,6 +164,21 @@ function TimelineCard({
             <ArrowUpRight className={cn("h-4 w-4", theme.kicker)} />
           </div>
         ) : null}
+
+        {experience.actionHref ? (
+          <a
+            href={experience.actionHref}
+            target={experience.actionExternal ? "_blank" : undefined}
+            rel={experience.actionExternal ? "noreferrer noopener" : undefined}
+            className={cn(
+              "inline-flex w-fit items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold transition-all hover:-translate-y-0.5",
+              theme.tag
+            )}
+          >
+            {experience.actionLabel ?? "Learn more"}
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+        ) : null}
       </div>
     </motion.article>
   );
@@ -242,6 +257,8 @@ const fallbackThemes: CardTheme[] = [
 
 const cardThemes: Record<string, CardTheme> = {
   "boosted-2026": fallbackThemes[0],
+  "marl-2026": fallbackThemes[1],
+  "taisi-2026": fallbackThemes[0],
   "microsoft-s25": fallbackThemes[1],
   "dsi-2025": fallbackThemes[2],
   "stackadapt-w25": fallbackThemes[3],

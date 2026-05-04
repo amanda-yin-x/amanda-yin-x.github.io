@@ -295,6 +295,17 @@ export function Hero() {
                 hustles, halfway through a good book, or giving a film way too
                 much post-credits analysis.
               </p>
+              <p className="rounded-sm border border-[#b9e3dc] bg-[#e8f8f5]/80 px-4 py-3 text-sm text-inkLight">
+                I&apos;m also building{" "}
+                <a
+                  href="/initiatives/ocean-bars"
+                  className="link-ink link-tiffany font-semibold text-[#0e6f6d]"
+                >
+                  Ocean Without Bars
+                </a>
+                , a public-interest prototype for experiencing whales and
+                dolphins without live-animal captivity.
+              </p>
             </motion.div>
 
             <motion.div variants={item} className="flex flex-wrap gap-3 pt-2">

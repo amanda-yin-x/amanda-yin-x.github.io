@@ -5,7 +5,7 @@ import { OceanBarsPageContent } from "@/components/ocean-bars-page-content";
 export const metadata: Metadata = {
   title: "Ocean Without Bars · Amanda Yin",
   description:
-    "Ocean Without Bars is Amanda Yin's human-centered initiative for offering a more thoughtful public alternative to captive cetacean shows."
+    "A prototype for the post-captivity marine park: a portable immersive experience that gives audiences the wonder of whales and dolphins without live-animal captivity."
 };
 
 export default function OceanBarsPage() {

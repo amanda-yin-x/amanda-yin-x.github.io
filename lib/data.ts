@@ -13,6 +13,9 @@ export type Experience = {
   order: number;
   status?: string;
   detailHref?: string;
+  actionHref?: string;
+  actionLabel?: string;
+  actionExternal?: boolean;
 };
 
 export const experiences: Experience[] = [
@@ -59,13 +62,57 @@ export const experiences: Experience[] = [
     location: "Contract · Toronto / Remote",
     timeframe: "Apr 2025 – Nov 2025",
     categories: ["research"],
+    actionHref: "https://arxiv.org/pdf/2601.07878",
+    actionLabel: "Read my paper",
+    actionExternal: true,
     highlights: [
-      "Summer research fellow (2025); full paper acceptance to ICAART 2026: “Sliced-Wasserstein Distribution Alignment”.",
+      "Summer research fellow (2025); co-first authored “Sliced-Wasserstein Distribution Alignment,” accepted to ICAART 2026.",
+      "Paper won Best Paper among 600+ submissions.",
       "Explored weight and activation quantization using mathematical optimization for efficient LLM training/inference.",
       "Collaborated on applied research, experimentation, and writing."
     ],
     tags: ["LLM quantization", "Optimization", "PyTorch", "Research", "Paper writing"],
     order: 202511
+  },
+  {
+    id: "marl-2026",
+    company: "University of Toronto",
+    team: "Peter Marbach Research Group",
+    title: "MARL Researcher",
+    location: "Toronto, ON",
+    timeframe: "Summer 2026",
+    status: "Current",
+    categories: ["research"],
+    actionHref: "https://www.cs.toronto.edu/~marbach/WEB/research.html",
+    actionLabel: "View research group",
+    actionExternal: true,
+    highlights: [
+      "Building theoretical foundations for multi-agent reinforcement learning systems.",
+      "Studying how agents share information, optimize collective rewards, and adapt in complex environments.",
+      "Using ideas from game theory, optimization, social network analysis, opinion dynamics, economics, and sociology."
+    ],
+    tags: ["MARL", "Game theory", "Optimization", "Social networks", "RL"],
+    order: 202608
+  },
+  {
+    id: "taisi-2026",
+    company: "Toronto AI Safety Initiative",
+    team: "Summer Intensive",
+    title: "AI Safety Intensive Participant",
+    location: "Toronto, ON",
+    timeframe: "Summer 2026",
+    status: "Current",
+    categories: ["research"],
+    actionHref: "https://www.taisi.ca/",
+    actionLabel: "Visit TAISI",
+    actionExternal: true,
+    highlights: [
+      "Joining a summer technical intensive on AI safety topics including threat models, mechanistic interpretability, RLHF, and scalable oversight.",
+      "Building technical projects and writeups through hands-on afternoon sessions.",
+      "Learning alongside AI safety researchers through a weekend format compatible with summer research."
+    ],
+    tags: ["AI safety", "Mechanistic interpretability", "RLHF", "Scalable oversight"],
+    order: 202607
   },
   {
     id: "stackadapt-w25",

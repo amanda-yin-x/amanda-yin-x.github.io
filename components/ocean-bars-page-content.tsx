@@ -1,869 +1,816 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
+  ArrowDown,
   ArrowUpRight,
-  Check,
-  Copy,
-  Ear,
+  BookOpen,
+  Brain,
+  CheckCircle2,
+  FileText,
+  Gauge,
+  Layers3,
   MapPinned,
+  MessageCircle,
+  Music2,
+  Route,
   School,
-  Sparkles,
   Waves
 } from "lucide-react";
 import { PageTransition } from "@/components/page-transition";
 
 const navItems = [
   { href: "#why", label: "Why" },
-  { href: "#feeling", label: "Experience" },
-  { href: "#approach", label: "Build" },
+  { href: "#experience", label: "Experience" },
+  { href: "#build", label: "Build" },
   { href: "#map", label: "Map" },
-  { href: "#plan", label: "Roadmap" }
+  { href: "#roadmap", label: "Roadmap" }
 ];
 
-const heroHighlights = [
+const originCards = [
   {
-    title: "Human-first angle",
-    body:
-      "This is meant to meet curiosity with something better, not to shame people for having it."
+    title: "Not a guilt machine",
+    body: "This is not about scolding families for being curious."
   },
   {
-    title: "What gets built",
-    body:
-      "An immersive experience, a public evidence map, and a lightweight toolkit for schools and museums."
+    title: "Not a zoo replacement slogan",
+    body: "It is about building an experience people can actually choose."
   },
   {
-    title: "The real hope",
-    body:
-      "Make captive cetacean shows feel outdated not by yelling louder, but by offering a richer alternative."
+    title: "Not just awareness",
+    body: "The goal is substitution: make the old format feel obsolete."
   }
 ];
 
-const feelingCards = [
+const oldModel = [
+  "Animals performing on cue",
+  "Curiosity pointed at tricks",
+  "A short burst of spectacle",
+  "A memory built around possession"
+];
+
+const newModel = [
+  "Sound, scale, and movement",
+  "Curiosity pointed at perspective",
+  "A calmer immersive encounter",
+  "A memory built around wonder"
+];
+
+const experiencePieces = [
   {
-    title: "No walls, no applause, just distance.",
+    icon: Waves,
+    title: "Immersive Ocean Scene",
     body:
-      "The point is to feel how huge the animal's world actually is before anyone starts explaining it.",
-    kind: "horizon"
+      "A 10-15 minute digital experience using projection, spatial sound, and interaction. The audience moves through open ocean scale, migration, sound, and social life before seeing the contrast with artificial confinement.",
+    details: [
+      "Web-based or Unity/WebXR prototype",
+      "Projection-friendly scenes",
+      "Spatial audio layer",
+      "Keyboard, phone, or sensor input",
+      "Abstract, respectful visuals"
+    ],
+    visual: "waves"
   },
   {
-    title: "The ocean is sound before it is sight.",
+    icon: Gauge,
+    title: "Shrinking Ocean Installation",
     body:
-      "A lot of understanding starts with listening: echoes, calls, orientation, and absence.",
-    kind: "sound"
+      "A physical installation that makes confinement legible at human scale. Visitors do not pretend to be dolphins. They experience a simple metaphor: movement, choice, and sensory space gradually shrinking.",
+    details: [
+      "Lightweight frame or projected boundary",
+      "Sound shifts from open ocean to repeated loops",
+      "Optional responsive movement feedback",
+      "Built for classrooms, libraries, galleries, or small museum rooms"
+    ],
+    visual: "frame"
   },
   {
-    title: "Connection can be felt as much as seen.",
+    icon: BookOpen,
+    title: "Science-Backed Education Guide",
     body:
-      "The emotional center is not spectacle. It is social life, movement, and what isolation really means.",
-    kind: "social"
-  },
-  {
-    title: "Bodies built for migration deserve scale.",
-    body:
-      "A tank makes everything look manageable. The ocean makes the mismatch impossible to ignore.",
-    kind: "scale"
+      "A toolkit that connects the emotional experience to credible learning, with source notes, discussion prompts, reflection questions, and a version schools or public spaces can adapt.",
+    details: [
+      "Vetted source list",
+      "Facilitator guide",
+      "Pre/post survey template",
+      "Open toolkit",
+      "Optional retrieval-grounded Q&A later"
+    ],
+    visual: "guide"
   }
 ] as const;
 
-const compareColumns = {
-  before: [
-    "A short burst of entertainment",
-    "Animals performing on cue",
-    "Curiosity pointed at tricks",
-    "A memory built around spectacle"
-  ],
-  after: [
-    "A calmer, more immersive encounter",
-    "Curiosity pointed at perspective",
-    "A sense of distance, sound, and social life",
-    "A memory built around wonder"
-  ]
-};
-
-const approachCards = [
+const buildLayers = [
   {
-    icon: Waves,
-    title: "Immersive experience",
-    body:
-      "A 10 to 15 minute encounter told through sound, scale, movement, and stillness. No gore. No scolding. Just enough design to help the feeling land."
+    icon: Layers3,
+    title: "Frontend experience",
+    body: "Browser-based interactive ocean scenes designed for projection and public viewing."
   },
   {
-    icon: MapPinned,
-    title: "Evidence map",
-    body:
-      "A public, citeable map showing where captive cetaceans are, how they moved, and what that system looks like when you stop treating each venue as an isolated case."
+    icon: Music2,
+    title: "Audio layer",
+    body: "Spatial sound, ocean ambience, and repeated confinement loops used with restraint."
+  },
+  {
+    icon: Route,
+    title: "Physical layer",
+    body: "Shrinking-ocean installation logic, venue layout, and portable setup notes."
+  },
+  {
+    icon: FileText,
+    title: "Evidence layer",
+    body: "Source notes and careful claims so the emotional arc stays scientifically grounded."
+  },
+  {
+    icon: Brain,
+    title: "Evaluation layer",
+    body: "Pre/post surveys and audience feedback to test what people understand and remember."
   },
   {
     icon: School,
-    title: "Venue toolkit",
-    body:
-      "A practical package for schools, museums, and community spaces so they can run this without needing a giant production budget or a marine park field trip."
+    title: "Toolkit layer",
+    body: "Documentation for schools, libraries, museums, and public spaces."
   }
 ];
 
-const buildCards = [
-  {
-    title: "For families",
-    body:
-      "Something a kid can walk out of feeling curious, moved, and more connected, without being preached at."
-  },
-  {
-    title: "For schools",
-    body:
-      "An experience teachers can point to as educational, thoughtful, and easier to justify than animal performance."
-  },
-  {
-    title: "For museums and cultural spaces",
-    body:
-      "A format that fits their mission: public learning, emotional resonance, and a clear invitation to think differently."
-  }
+const mapCards = [
+  "Venue records",
+  "Transfer routes",
+  "Context notes",
+  "Source links",
+  "Timeline entries"
 ];
 
-const principles = [
-  "Give people a better option, not a guilt trip",
-  "Let the feeling arrive before the facts pile up",
-  "Make the evidence clean, careful, and citeable",
-  "Design for real venues, not just ideal ones",
-  "Keep the tone invitational",
-  "Start small enough to actually ship"
-];
-
-const phases = [
+const roadmap = [
   {
-    step: "01",
-    window: "Months 1-2",
+    months: "Months 1-2",
     title: "Listen and scope",
     body:
-      "Read deeply, talk to potential partners, narrow the first audience, and draft the emotional arc of the experience."
+      "Research, expert outreach, script, storyboards, first audience definition, and technical design."
   },
   {
-    step: "02",
-    window: "Months 3-5",
-    title: "Build the first version",
+    months: "Months 3-4",
+    title: "Build the first prototype",
     body:
-      "Prototype the experience, shape the map schema, test the language, and figure out what people actually remember afterward."
+      "Create the first immersive ocean scene, sound prototype, and shrinking-ocean installation mockup."
   },
   {
-    step: "03",
-    window: "Months 6-9",
-    title: "Pilot in real spaces",
+    months: "Months 5-6",
+    title: "Build the full experience",
     body:
-      "Run a few early pilots with aligned schools or public venues, then use that feedback to simplify, sharpen, and expand."
+      "Complete the three-act experience: open ocean, shrinking world, post-captivity future. Draft the education guide and toolkit."
   },
   {
-    step: "04",
-    window: "Months 10-12",
-    title: "Package it for adoption",
+    months: "Months 7-8",
+    title: "Pilot and measure",
     body:
-      "Turn the scrappy prototype into something another venue could reasonably pick up, run, and adapt."
+      "Test with small audiences. Use pre/post surveys to measure changes in understanding, memory, and attitudes toward captivity."
+  },
+  {
+    months: "Months 9-10",
+    title: "Refine",
+    body:
+      "Improve visuals, sound, installation design, language, and toolkit. Make the experience easier for real venues to host."
+  },
+  {
+    months: "Months 11-12",
+    title: "Public launch",
+    body:
+      "Run a public demo, publish the final website, release the open toolkit, and write an impact report."
   }
 ];
 
 const metrics = [
-  { value: "500+", label: "people reached in early pilots" },
-  { value: "5+", label: "aligned venues or partners" },
-  { value: "50+", label: "mapped entries with sources" }
+  "Working 15-minute portable prototype",
+  "At least 200 participants in testing",
+  "Pre/post survey results on attitudes toward captivity and ethical alternatives",
+  "One public demo",
+  "One open toolkit for schools, libraries, museums, and advocacy groups",
+  "At least 3-5 conversations with educators, animal welfare experts, or potential venue partners",
+  "A clear impact report showing what worked, what did not, and what should come next"
+];
+
+const guardrails = [
+  "Give people a better option, not a guilt trip.",
+  "Let the feeling arrive before the facts pile up.",
+  "Make the evidence clean, careful, and citeable.",
+  "Design for real venues, not ideal ones.",
+  "Start small enough to actually ship.",
+  "Do not use animal suffering as spectacle.",
+  "Do not claim to speak for whales or dolphins.",
+  "Build a replacement, not just an argument."
 ];
 
 const risks = [
-  {
-    title: "It feels too abstract",
-    body: "Test with real people early and keep trimming until the emotional core lands fast."
-  },
-  {
-    title: "The map gets messy",
-    body: "Use strict sourcing rules and keep the first version narrow instead of pretending the whole system can be mapped at once."
-  },
-  {
-    title: "Venues worry it is too political",
-    body: "Frame it as a cultural and educational alternative, not a public takedown."
-  },
-  {
-    title: "Scope balloons",
-    body: "Stay focused on cetaceans and on one first format that can actually ship."
-  }
+  "It becomes emotionally moving but not scientifically careful.",
+  "It becomes technically impressive but not compelling enough for venues to adopt.",
+  "It makes people feel guilty without offering a better alternative.",
+  "The evidence map becomes messy or too broad.",
+  "The project tries to solve all animal welfare instead of focusing on captive cetacean entertainment.",
+  "Immersive technology alone does not change minds unless paired with good storytelling and credible education."
 ];
 
-const thisIsNot = [
-  "Not a startup deck in disguise",
-  "Not a guilt machine",
-  "Not an anti-family lecture",
-  "Not a flashy VR gimmick for its own sake",
-  "Not a claim to solve all animal welfare at once"
-];
+const sectionMotion = {
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] }
+};
 
 export function OceanBarsPageContent() {
-  const [progress, setProgress] = useState(0);
-  const [copied, setCopied] = useState(false);
-  const [date, setDate] = useState("");
+  const reduceMotion = useReducedMotion();
 
-  useEffect(() => {
-    setDate(
-      new Date().toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric"
-      })
-    );
-
-    const updateProgress = () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const next = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      setProgress(Math.min(next, 100));
-    };
-
-    updateProgress();
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    return () => window.removeEventListener("scroll", updateProgress);
-  }, []);
-
-  const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      window.location.hash = "top";
-    }
-  };
+  const motionProps = reduceMotion
+    ? {}
+    : {
+        initial: sectionMotion.initial,
+        whileInView: sectionMotion.whileInView,
+        viewport: sectionMotion.viewport,
+        transition: sectionMotion.transition
+      };
 
   return (
     <PageTransition>
-      <div className="mt-4" id="top">
-        <div className="fixed left-0 right-0 top-[72px] z-30 h-[2px] bg-transparent">
-          <motion.div
-            className="h-full bg-gradient-to-r from-[#0c5f73] via-[#53a8b7] to-[#9ddfd8]"
-            animate={{ width: `${progress}%` }}
-          />
-        </div>
+      <div
+        id="top"
+        className="-mx-6 -mt-8 overflow-hidden bg-[#050b14] text-[#f6fbfc] shadow-[0_0_0_100vmax_#050b14] [clip-path:inset(0_-100vmax)] lg:-mx-8"
+      >
+        <div className="relative">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_10%,rgba(60,191,211,0.22),transparent_30%),radial-gradient(circle_at_88%_3%,rgba(123,104,238,0.16),transparent_25%),linear-gradient(180deg,#061423_0%,#07101c_42%,#050b14_100%)]" />
+          <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.7)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.7)_1px,transparent_1px)] [background-size:72px_72px]" />
 
-        <div className="space-y-10">
-          <section className="relative overflow-hidden rounded-[2.8rem] border border-[#b9e3dc] bg-[linear-gradient(180deg,rgba(240,252,249,0.96),rgba(255,255,255,0.94))] p-8 shadow-paper md:p-10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(170,233,225,0.34),_transparent_30%),radial-gradient(circle_at_85%_15%,_rgba(212,227,255,0.42),_transparent_24%),radial-gradient(circle_at_bottom_right,_rgba(11,88,104,0.12),_transparent_30%)]" />
-            <div className="absolute inset-x-0 bottom-0 h-36 bg-[linear-gradient(180deg,transparent,rgba(11,88,104,0.07))]" />
+          <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-8 lg:px-8">
+            <nav
+              className="mb-6 flex flex-wrap items-center gap-2 text-sm"
+              aria-label="Ocean Without Bars sections"
+            >
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 text-[#c9dce2] backdrop-blur transition hover:border-[#7dd4d8]/60 hover:text-white"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
 
-            <div className="relative">
-              <div className="mb-8 flex flex-col gap-4 border-b border-[#d6ece8] pb-5 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#0e6f6d]">
-                    Ocean Without Bars
-                  </p>
-                  <p className="mt-2 text-sm text-inkWash">
-                    Initiative note · {date || "Loading date..."}
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {navItems.map((item) => (
-                    <a
-                      key={item.href}
-                      href={item.href}
-                      className="rounded-full border border-[#cce9e3] bg-white/80 px-3 py-1.5 text-sm text-inkFaded transition-all hover:-translate-y-0.5 hover:border-[#0e6f6d] hover:text-[#0e6f6d]"
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
+            <Hero reduceMotion={Boolean(reduceMotion)} />
 
-              <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-                <div>
-                  <p className="font-hand text-3xl text-[#0e6f6d]">
-                    a gentler alternative to captive cetacean shows
-                  </p>
-                  <h1 className="mt-3 max-w-3xl font-serif text-4xl leading-tight text-ink sm:text-5xl">
-                    A public experience that makes the ocean feel bigger than the tank.
-                  </h1>
-                  <p className="mt-5 max-w-2xl text-lg leading-relaxed text-inkLight">
-                    I keep coming back to a simple question: if someone is curious
-                    about dolphins or whales, why is the default still a show?
-                    Ocean Without Bars is my attempt at offering something more
-                    honest, more moving, and more human.
-                  </p>
-                  <p className="mt-4 max-w-2xl text-base leading-relaxed text-inkFaded">
-                    Not a protest people have to agree with before they walk in.
-                    More like an invitation: step into sound, scale, migration,
-                    and social life, and let the old format start to feel small
-                    on its own.
-                  </p>
-
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    {["Immersive experience", "Evidence map", "Venue toolkit"].map(
-                      (pill, index) => (
-                        <span
-                          key={pill}
-                          className={`rounded-full border px-3 py-1.5 text-xs font-medium ${
-                            index === 0
-                              ? "border-[#b9e3dc] bg-[#e7f8f4] text-[#0e6f6d]"
-                              : index === 1
-                                ? "border-[#d9d0ff] bg-[#f3f0ff] text-[#6652ad]"
-                                : "border-[#ffd8be] bg-[#fff2e8] text-[#b26020]"
-                          }`}
-                        >
-                          {pill}
-                        </span>
-                      )
-                    )}
-                  </div>
-
-                  <div className="mt-8 flex flex-wrap gap-3">
-                    <a
-                      href="#feeling"
-                      className="inline-flex items-center gap-2 rounded-full bg-[#10243d] px-5 py-3 text-sm font-medium text-paper transition-colors hover:bg-[#183656]"
-                    >
-                      See the experience
-                    </a>
-                    <button
-                      type="button"
-                      onClick={copyLink}
-                      className="inline-flex items-center gap-2 rounded-full border border-border bg-white/85 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-[#0e6f6d] hover:text-[#0e6f6d]"
-                    >
-                      {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                      {copied ? "Link copied" : "Copy link"}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="overflow-hidden rounded-[2rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(228,246,243,0.96))] p-5 shadow-paper">
-                    <div className="relative h-72 overflow-hidden rounded-[1.7rem] bg-[#0a1628]">
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_24%,_rgba(115,219,209,0.2),_transparent_22%),radial-gradient(circle_at_78%_18%,_rgba(255,255,255,0.12),_transparent_16%),linear-gradient(180deg,_#0d2a47_0%,_#09111c_100%)]" />
-                      <div className="absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(5,10,19,0.34))]" />
-                      <div className="absolute bottom-10 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
-                      <div className="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#5aa8b8]/40" />
-                      <div className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#5aa8b8]/20" />
-                      <div className="absolute left-[46%] top-[42%] h-12 w-24 rounded-[999px] border border-white/15 bg-white/5 blur-[1px]" />
-                      <div className="absolute bottom-8 left-[52%] h-1.5 w-1.5 rounded-full bg-white/60" />
-                    </div>
-                    <p className="mt-4 font-hand text-2xl text-[#0e6f6d]">
-                      less spectacle, more presence
+            <div className="space-y-8 pt-8 md:space-y-10">
+              <motion.section
+                id="why"
+                className="scroll-mt-28 rounded-[2rem] border border-white/10 bg-white/[0.045] p-6 shadow-[0_18px_80px_rgba(0,0,0,0.28)] backdrop-blur md:p-8"
+                {...motionProps}
+              >
+                <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                      Why this exists
+                    </p>
+                    <h2 className="mt-3 font-serif text-3xl leading-tight text-white md:text-4xl">
+                      This started from a cultural gap, not a branding idea.
+                    </h2>
+                    <p className="mt-5 text-base leading-relaxed text-[#c7d7dc]">
+                      I was born and raised in China, where marine parks and
+                      animal performance venues are still common. I grew up
+                      seeing dolphins and whales treated as entertainment. Over
+                      time, documentaries and conversations with people inside
+                      the industry changed how I saw those shows.
+                    </p>
+                    <p className="mt-4 text-base leading-relaxed text-[#c7d7dc]">
+                      One conversation stayed with me: a former dolphin trainer
+                      told me about a dolphin who nearly pulled her underwater
+                      during a performance, then let her go, and later died
+                      after signs of deep distress. The story made captivity
+                      feel less like a distant ethical debate and more like a
+                      failure of imagination.
+                    </p>
+                    <p className="mt-4 text-base leading-relaxed text-[#c7d7dc]">
+                      The show is only the visible part. Behind it can be
+                      capture, breeding, transfer, separation from natural social
+                      groups, and a lifetime of confinement. Ocean Without Bars
+                      asks a different question: what if the better choice also
+                      felt like the more interesting one?
                     </p>
                   </div>
 
-                  <div className="grid gap-3">
-                    {heroHighlights.map((item, index) => (
-                      <div
-                        key={item.title}
-                        className={`rounded-[1.6rem] border p-4 shadow-paper ${
-                          index === 0
-                            ? "border-[#b9e3dc] bg-[#f3fcf9]"
-                            : index === 1
-                              ? "border-[#d9d0ff] bg-[#f7f5ff]"
-                              : "border-[#ffd8be] bg-[#fff8f1]"
-                        }`}
+                  <div className="grid content-start gap-3">
+                    {originCards.map((card) => (
+                      <article
+                        key={card.title}
+                        className="rounded-2xl border border-white/10 bg-[#0a1828]/80 p-5"
                       >
-                        <p className="text-sm font-semibold text-ink">{item.title}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-inkLight">
-                          {item.body}
+                        <h3 className="text-base font-semibold text-white">
+                          {card.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-[#b2c6cd]">
+                          {card.body}
                         </p>
-                      </div>
+                      </article>
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
-          </section>
+              </motion.section>
 
-          <section
-            id="why"
-            className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]"
-          >
-            <div className="rounded-[2rem] border border-[#d8d0ff] bg-[#f8f5ff] p-7 shadow-paper">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#6652ad]">
-                Why this exists
-              </p>
-              <h2 className="mt-3 font-serif text-3xl text-ink">
-                This started from a cultural gap, not a branding idea.
-              </h2>
-              <p className="mt-5 text-base leading-relaxed text-inkLight">
-                I grew up in places where dolphin shows were framed as normal:
-                family outings, school trips, something fun to do on a weekend.
-                In other places I have lived, the exact same thing feels almost
-                unthinkable.
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-inkLight">
-                That gap matters. It means the answer is not just "tell people
-                more facts." People already hear the facts. What they usually do
-                not have is another outlet for their curiosity.
-              </p>
-              <p className="mt-5 font-hand text-3xl text-[#6652ad]">
-                what if the better choice also felt like the more interesting one?
-              </p>
-            </div>
-
-            <div className="rounded-[2rem] border border-border bg-white/85 p-7 shadow-paper">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="rounded-[1.5rem] border border-[#dbece9] bg-[#f8fcfb] p-5">
-                  <p className="text-sm font-semibold text-ink">What I am not trying to do</p>
-                  <p className="mt-2 text-sm leading-relaxed text-inkLight">
-                    Make people feel scolded, cornered, or morally embarrassed in
-                    order to care.
-                  </p>
-                </div>
-                <div className="rounded-[1.5rem] border border-[#dbece9] bg-[#f8fcfb] p-5">
-                  <p className="text-sm font-semibold text-ink">What I am trying to do</p>
-                  <p className="mt-2 text-sm leading-relaxed text-inkLight">
-                    Offer an encounter so thoughtful and memorable that the old
-                    format starts to feel thin by comparison.
-                  </p>
-                </div>
-                <div className="rounded-[1.5rem] border border-[#dbece9] bg-[#f8fcfb] p-5 md:col-span-2">
-                  <p className="text-sm font-semibold text-ink">Who this is for</p>
-                  <p className="mt-2 text-sm leading-relaxed text-inkLight">
-                    Curious kids, teachers, families, museum visitors, and the
-                    many people who are not looking for an argument but are open
-                    to a better way of seeing.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section
-            id="feeling"
-            className="overflow-hidden rounded-[2.4rem] border border-[#173852] bg-[linear-gradient(180deg,#0a1628_0%,#0c1c31_100%)] px-6 py-10 text-[#f0f6f8] shadow-paper md:px-8"
-          >
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7cc7d0]">
-                The experience
-              </p>
-              <h2 className="mt-3 font-serif text-3xl leading-tight sm:text-4xl">
-                Before anyone learns a fact, I want them to feel a world.
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-[#bed0d5]">
-                The experience should feel more like slipping underwater than
-                sitting through a lesson. Quiet, spatial, and slightly haunting
-                in a way that stays with you.
-              </p>
-            </div>
-
-            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {feelingCards.map((card) => (
-                <div
-                  key={card.title}
-                  className="rounded-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-5 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.28)]"
-                >
-                  <div className="mb-5 flex h-36 items-center justify-center rounded-[1.2rem] bg-white/[0.02]">
-                    <FeelingVisual kind={card.kind} />
-                  </div>
-                  <p className="text-center text-base leading-relaxed text-[#eef4f6]">
-                    {card.title}
-                  </p>
-                  <p className="mt-3 text-center text-sm leading-relaxed text-[#a9bcc2]">
-                    {card.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <p className="mt-6 text-center text-sm italic text-[#89a0a8]">
-              Less information overload. More emotional accuracy.
-            </p>
-          </section>
-
-          <section className="rounded-[2rem] border border-border bg-white/85 p-6 shadow-paper md:p-8">
-            <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-[1fr_auto_1fr] md:items-stretch">
-              <div className="rounded-[1.6rem] border border-[#eadfd3] bg-[#fffaf4] p-5 md:text-right">
-                <p className="text-xs uppercase tracking-[0.18em] text-inkWash">
-                  What people usually get
-                </p>
-                <ul className="mt-4 space-y-2 text-base text-ink">
-                  {compareColumns.before.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mx-auto flex items-center justify-center">
-                <div className="h-px w-16 bg-border md:h-24 md:w-px" />
-              </div>
-              <div className="rounded-[1.6rem] border border-[#d7ece8] bg-[#f4fcfa] p-5">
-                <p className="text-xs uppercase tracking-[0.18em] text-inkWash">
-                  What I want them to leave with
-                </p>
-                <ul className="mt-4 space-y-2 text-base text-ink">
-                  {compareColumns.after.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section
-            id="approach"
-            className="rounded-[2.1rem] border border-[#d8ece7] bg-[linear-gradient(180deg,#f7fcfb_0%,#ffffff_100%)] p-8 shadow-paper"
-          >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#0e6f6d]">
-              How it gets built
-            </p>
-            <h2 className="mt-3 font-serif text-3xl text-ink">
-              Three pieces that make the idea usable in the real world
-            </h2>
-            <p className="mt-3 max-w-2xl text-base leading-relaxed text-inkLight">
-              I do not want this to live as a beautiful concept page forever.
-              The point is to turn the idea into something a venue could
-              actually host and a visitor could actually remember.
-            </p>
-
-            <div className="mt-7 grid gap-4 md:grid-cols-3">
-              {approachCards.map((card, index) => {
-                const Icon = card.icon;
-                return (
-                  <article
-                    key={card.title}
-                    className="rounded-[1.6rem] border border-[#e3ece9] bg-white/90 p-5 shadow-paper"
-                  >
-                    <div
-                      className={`mb-4 flex h-11 w-11 items-center justify-center rounded-2xl ${
-                        index === 0
-                          ? "bg-[#e7f8f4] text-[#0e6f6d]"
-                          : index === 1
-                            ? "bg-[#f1edff] text-[#6652ad]"
-                            : "bg-[#fff1e3] text-[#b26020]"
-                      }`}
-                    >
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-ink">{card.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-inkLight">
-                      {card.body}
-                    </p>
-                  </article>
-                );
-              })}
-            </div>
-
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {buildCards.map((card, index) => (
-                <div
-                  key={card.title}
-                  className={`rounded-[1.6rem] border p-5 ${
-                    index === 0
-                      ? "border-[#b9e3dc] bg-[#eefcf9]"
-                      : index === 1
-                        ? "border-[#d9d0ff] bg-[#f6f3ff]"
-                        : "border-[#ffd8be] bg-[#fff7ee]"
-                  }`}
-                >
-                  <p className="text-sm font-semibold text-ink">{card.title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-inkLight">
-                    {card.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section
-            id="map"
-            className="overflow-hidden rounded-[2.3rem] border border-[#18344d] bg-[linear-gradient(180deg,#0c1727_0%,#0a1320_100%)] p-8 text-[#f0f6f8] shadow-paper"
-          >
-            <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7cc7d0]">
-                  The evidence map
-                </p>
-                <h2 className="mt-3 font-serif text-3xl">
-                  A calmer way to make the system legible
-                </h2>
-                <p className="mt-4 max-w-xl text-base leading-relaxed text-[#bfd0d5]">
-                  Part of what keeps captivity culturally sticky is that the
-                  system is hard to see. Venues feel disconnected. Transfers feel
-                  abstract. Timelines stay buried.
-                </p>
-                <p className="mt-4 max-w-xl text-base leading-relaxed text-[#9fb0b8]">
-                  The map is meant to do something simple but useful: gather the
-                  evidence in one place, keep the sources clean, and help people
-                  understand the structure without turning the whole thing into a
-                  shame wall.
-                </p>
-
-                <div className="mt-6 rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5">
-                  <div className="space-y-4 text-sm text-[#d0dde1]">
-                    <div className="flex items-center gap-3">
-                      <span className="h-3 w-3 rounded-full bg-[#7dd4d8]" />
-                      <span>Venue locations and current records</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="h-px w-10 bg-[#7dd4d8]" />
-                      <span>Transfer routes and movement history</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="inline-flex h-6 w-6 items-center justify-center rounded border border-white/20">
-                        <Ear className="h-3.5 w-3.5" />
-                      </span>
-                      <span>Context notes with sources attached</span>
-                    </div>
-                  </div>
-                  <p className="mt-8 text-sm italic text-[#8ba0a8]">
-                    Not "gotcha" energy. More like turning the lights on.
-                  </p>
-                </div>
-              </div>
-
-              <div className="relative h-80 overflow-hidden rounded-[1.9rem] border border-white/10 bg-[linear-gradient(180deg,_rgba(17,32,49,0.9),_rgba(8,15,26,0.98))]">
-                <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:40px_40px]" />
-                <span className="absolute left-[22%] top-[22%] h-3 w-3 rounded-full bg-[#7dd4d8] shadow-[0_0_18px_rgba(125,212,216,0.6)]" />
-                <span className="absolute left-[52%] top-[46%] h-3 w-3 rounded-full bg-[#7dd4d8] shadow-[0_0_18px_rgba(125,212,216,0.6)]" />
-                <span className="absolute left-[76%] top-[31%] h-3 w-3 rounded-full bg-[#7dd4d8] shadow-[0_0_18px_rgba(125,212,216,0.6)]" />
-                <span className="absolute left-[38%] top-[64%] h-2 w-2 rounded-full bg-white/70" />
-                <span className="absolute left-[63%] top-[24%] h-2 w-2 rounded-full bg-white/50" />
-                <span className="absolute left-[24%] top-[25%] h-px w-[30%] rotate-[16deg] bg-gradient-to-r from-[#7dd4d8]/20 via-[#7dd4d8]/60 to-[#7dd4d8]/20" />
-                <span className="absolute left-[54%] top-[44%] h-px w-[22%] -rotate-[28deg] bg-gradient-to-r from-[#7dd4d8]/20 via-[#7dd4d8]/60 to-[#7dd4d8]/20" />
-                <span className="absolute left-[31%] top-[59%] h-px w-[20%] rotate-[8deg] bg-gradient-to-r from-white/10 via-white/30 to-white/10" />
-                <div className="absolute inset-x-6 bottom-6 rounded-[1.3rem] border border-white/10 bg-[#0d1d31]/80 p-4 backdrop-blur-sm">
-                  <p className="text-xs uppercase tracking-[0.22em] text-[#7cc7d0]">
-                    first pass
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-[#d0dde1]">
-                    A readable public layer showing locations, transfers, and the
-                    connective tissue that usually stays invisible.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section className="rounded-[2rem] border border-border bg-white/85 p-8 shadow-paper">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#0e6f6d]">
-                  Working principles
-                </p>
-                <h2 className="mt-3 font-serif text-3xl text-ink">
-                  The guardrails I want to keep
-                </h2>
-              </div>
-              <div className="rounded-full border border-[#d7ece8] bg-[#f5fcfa] px-4 py-2 text-sm text-[#0e6f6d]">
-                thoughtful, citeable, adoptable
-              </div>
-            </div>
-
-            <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-              {principles.map((principle, index) => (
-                <div
-                  key={principle}
-                  className={`rounded-[1.3rem] border px-4 py-4 text-sm font-medium ${
-                    index % 3 === 0
-                      ? "border-[#b9e3dc] bg-[#eefcf9] text-[#0e6f6d]"
-                      : index % 3 === 1
-                        ? "border-[#d9d0ff] bg-[#f3f0ff] text-[#6652ad]"
-                        : "border-[#ffd8be] bg-[#fff2e8] text-[#b26020]"
-                  }`}
-                >
-                  {principle}
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section
-            id="plan"
-            className="rounded-[2.1rem] border border-[#d7ece8] bg-[linear-gradient(180deg,_rgba(238,252,249,0.92),_rgba(255,255,255,0.96))] p-8 shadow-paper"
-          >
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#0e6f6d]">
-                  First 12 months
-                </p>
-                <h2 className="mt-3 font-serif text-3xl text-ink">
-                  A roadmap that stays honest about scope
-                </h2>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#d7ece8] bg-white/80 px-4 py-2 text-sm text-inkFaded">
-                <Sparkles className="h-4 w-4 text-[#0e6f6d]" />
-                build small, test early, keep the bar high
-              </div>
-            </div>
-
-            <div className="mt-8 space-y-5">
-              {phases.map((phase, index) => (
-                <div
-                  key={phase.step}
-                  className="grid gap-4 rounded-[1.7rem] border border-[#d7ece8] bg-white/88 p-5 md:grid-cols-[160px_1fr]"
-                >
-                  <div className="flex items-center gap-3 md:block">
-                    <span
-                      className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold text-white ${
-                        index % 3 === 0
-                          ? "bg-[#0e6f6d]"
-                          : index % 3 === 1
-                            ? "bg-[#6652ad]"
-                            : "bg-[#b26020]"
-                      }`}
-                    >
-                      {phase.step}
-                    </span>
-                    <p className="mt-0 text-xs font-semibold uppercase tracking-[0.18em] text-inkWash md:mt-3">
-                      {phase.window}
-                    </p>
-                  </div>
+              <motion.section
+                className="scroll-mt-28 rounded-[2rem] border border-[#1d5364] bg-[linear-gradient(135deg,rgba(9,25,42,0.96),rgba(5,12,22,0.98))] p-6 md:p-8"
+                {...motionProps}
+              >
+                <div className="grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
                   <div>
-                    <h3 className="text-lg font-semibold text-ink">{phase.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-inkLight">
-                      {phase.body}
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                      Core idea
                     </p>
+                    <h2 className="mt-3 font-serif text-3xl leading-tight text-white md:text-4xl">
+                      The old promise was closeness. The new promise is
+                      understanding.
+                    </h2>
+                    <p className="mt-5 text-base leading-relaxed text-[#c2d4d9]">
+                      The old marine park promise was simple: come close to the
+                      whale. But closeness built on captivity is not the same as
+                      understanding. Ocean Without Bars gives audiences a
+                      different kind of encounter: one built around distance,
+                      sound, migration, social life, and scale.
+                    </p>
+                    <blockquote className="mt-6 border-l border-[#7dd4d8] pl-5 font-serif text-2xl leading-snug text-white">
+                      "We built cages because we could not imagine another way
+                      to feel close."
+                    </blockquote>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <CompareCard title="The old model" items={oldModel} muted />
+                    <CompareCard title="The new model" items={newModel} />
                   </div>
                 </div>
-              ))}
-            </div>
+              </motion.section>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {metrics.map((metric, index) => (
-                <div
-                  key={metric.label}
-                  className={`rounded-[1.6rem] border p-5 shadow-paper ${
-                    index === 0
-                      ? "border-[#b9e3dc] bg-[#eefcf9]"
-                      : index === 1
-                        ? "border-[#d9d0ff] bg-[#f3f0ff]"
-                        : "border-[#ffd8be] bg-[#fff2e8]"
-                  }`}
-                >
-                  <p className="font-serif text-3xl text-ink">{metric.value}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-inkFaded">
-                    {metric.label}
+              <motion.section
+                id="experience"
+                className="scroll-mt-28 rounded-[2rem] border border-white/10 bg-white/[0.035] p-6 backdrop-blur md:p-8"
+                {...motionProps}
+              >
+                <div className="max-w-3xl">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                    What I will build
+                  </p>
+                  <h2 className="mt-3 font-serif text-3xl leading-tight text-white md:text-4xl">
+                    A portable experience, not just a beautiful concept page.
+                  </h2>
+                  <p className="mt-4 text-base leading-relaxed text-[#c2d4d9]">
+                    The first version of Ocean Without Bars will be small enough
+                    to ship, but serious enough to test. It has three connected
+                    pieces.
                   </p>
                 </div>
-              ))}
-            </div>
-          </section>
 
-          <section className="grid gap-4 lg:grid-cols-2">
-            <div
-              id="me"
-              className="rounded-[1.9rem] border border-[#f0c5d4] bg-[#fff4f7] p-6 shadow-paper"
-            >
-              <h2 className="font-serif text-2xl text-ink">
-                Why I feel responsible for building this well
-              </h2>
-              <div className="mt-4 space-y-4 text-sm leading-relaxed text-inkLight">
-                <p>
-                  I understand the cultural normality around these shows because
-                  I grew up around it. I also understand the distance many people
-                  feel from that world once they have seen alternatives.
-                </p>
-                <p>
-                  I like building things that sit between research, interface,
-                  and public understanding. This idea needs all three.
-                </p>
-                <p>
-                  I also care about tone. If this becomes self-righteous, it
-                  loses the exact people it needs to reach.
-                </p>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                {[
-                  "full-stack prototyping",
-                  "research synthesis",
-                  "cross-cultural communication"
-                ].map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-[#eab9ca] bg-white/70 px-3 py-1.5 text-sm text-[#a24f68]"
+                <div className="mt-7 grid gap-4 lg:grid-cols-3">
+                  {experiencePieces.map((piece, index) => {
+                    const Icon = piece.icon;
+                    return (
+                      <article
+                        key={piece.title}
+                        className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.035))] p-5"
+                      >
+                        <ExperienceVisual
+                          kind={piece.visual}
+                          reduceMotion={Boolean(reduceMotion)}
+                        />
+                        <div className="relative">
+                          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#7dd4d8]/25 bg-[#7dd4d8]/10 text-[#8ee4e8]">
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <h3 className="mt-5 text-xl font-semibold text-white">
+                            {piece.title}
+                          </h3>
+                          <p className="mt-3 text-sm leading-relaxed text-[#bed0d5]">
+                            {piece.body}
+                          </p>
+                          <ul className="mt-5 space-y-2 text-sm text-[#d9e8eb]">
+                            {piece.details.map((detail) => (
+                              <li key={detail} className="flex gap-2">
+                                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#7dd4d8]" />
+                                <span>{detail}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </motion.section>
+
+              <motion.section
+                id="build"
+                className="scroll-mt-28 rounded-[2rem] border border-[#1d5364] bg-[#061321] p-6 md:p-8"
+                {...motionProps}
+              >
+                <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr]">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                      How this becomes real
+                    </p>
+                    <h2 className="mt-3 font-serif text-3xl leading-tight text-white md:text-4xl">
+                      Built between research, interface, and public
+                      understanding.
+                    </h2>
+                    <p className="mt-5 text-base leading-relaxed text-[#c2d4d9]">
+                      My background is in software engineering, machine
+                      learning, and interactive systems. I am not approaching
+                      this as a traditional campaign. I am building the missing
+                      interface between marine science, public emotion, and
+                      adoptable venue design.
+                    </p>
+                    <p className="mt-4 text-base leading-relaxed text-[#c2d4d9]">
+                      I like building things that sit between research,
+                      interface, and public understanding. This project needs
+                      all three.
+                    </p>
+                  </div>
+
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {buildLayers.map((layer) => {
+                      const Icon = layer.icon;
+                      return (
+                        <article
+                          key={layer.title}
+                          className="rounded-2xl border border-white/10 bg-white/[0.045] p-4"
+                        >
+                          <Icon className="h-5 w-5 text-[#7dd4d8]" />
+                          <h3 className="mt-3 text-sm font-semibold text-white">
+                            {layer.title}
+                          </h3>
+                          <p className="mt-2 text-sm leading-relaxed text-[#afc2c8]">
+                            {layer.body}
+                          </p>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </div>
+              </motion.section>
+
+              <motion.section
+                id="map"
+                className="scroll-mt-28 overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,#081829_0%,#050c16_100%)] p-6 md:p-8"
+                {...motionProps}
+              >
+                <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                      Evidence map
+                    </p>
+                    <h2 className="mt-3 font-serif text-3xl leading-tight text-white md:text-4xl">
+                      A calmer way to make the system legible
+                    </h2>
+                    <p className="mt-5 text-base leading-relaxed text-[#c2d4d9]">
+                      Part of what keeps captivity culturally sticky is that the
+                      system is hard to see. Venues feel disconnected. Transfers
+                      feel abstract. Timelines stay buried. The evidence map is
+                      meant to gather clean, citeable information in one place
+                      without turning the project into a shame wall.
+                    </p>
+                    <p className="mt-5 text-sm italic text-[#8fb9c0]">
+                      Not "gotcha" energy. More like turning the lights on.
+                    </p>
+                  </div>
+
+                  <div className="relative min-h-[330px] overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#071320] p-5">
+                    <EvidenceMapVisual />
+                    <div className="relative grid gap-3 sm:grid-cols-2">
+                      {mapCards.map((card) => (
+                        <div
+                          key={card}
+                          className="rounded-2xl border border-white/10 bg-[#071320]/75 p-4 backdrop-blur"
+                        >
+                          <MapPinned className="h-4 w-4 text-[#7dd4d8]" />
+                          <p className="mt-3 text-sm font-medium text-white">
+                            {card}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.section>
+
+              <motion.section
+                id="roadmap"
+                className="scroll-mt-28 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 md:p-8"
+                {...motionProps}
+              >
+                <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                      First 12 months
+                    </p>
+                    <h2 className="mt-3 font-serif text-3xl leading-tight text-white md:text-4xl">
+                      A one-year roadmap
+                    </h2>
+                  </div>
+                  <a
+                    href="#success"
+                    className="inline-flex w-fit items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 text-sm text-[#d8e8eb] transition hover:border-[#7dd4d8]/60"
                   >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
+                    Success metrics
+                    <ArrowDown className="h-4 w-4" />
+                  </a>
+                </div>
 
-            <div className="space-y-4">
-              <div className="rounded-[1.9rem] border border-border bg-white/88 p-6 shadow-paper">
-                <h3 className="font-serif text-2xl text-ink">What could go wrong</h3>
-                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-inkLight">
-                  {risks.map((item) => (
-                    <li key={item.title}>
-                      <strong>{item.title}.</strong> {item.body}
-                    </li>
+                <div className="mt-8 grid gap-4">
+                  {roadmap.map((item, index) => (
+                    <motion.article
+                      key={item.months}
+                      className="grid gap-4 rounded-[1.4rem] border border-white/10 bg-[#071624]/85 p-5 md:grid-cols-[140px_1fr]"
+                      initial={reduceMotion ? false : { opacity: 0, x: -18 }}
+                      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{
+                        duration: 0.48,
+                        delay: reduceMotion ? 0 : index * 0.05
+                      }}
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7dd4d8]">
+                        {item.months}
+                      </p>
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">
+                          {item.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-[#b9cbd0]">
+                          {item.body}
+                        </p>
+                      </div>
+                    </motion.article>
                   ))}
-                </ul>
-              </div>
+                </div>
+              </motion.section>
 
-              <div className="rounded-[1.9rem] border border-border bg-white/88 p-6 shadow-paper">
-                <h3 className="font-serif text-2xl text-ink">What this is not</h3>
-                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-inkLight">
-                  {thisIsNot.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section className="overflow-hidden rounded-[2.2rem] border border-[#10243d] bg-[linear-gradient(180deg,#10243d_0%,#0d1c31_100%)] p-8 text-paper shadow-paper">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-2xl">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7cc7d0]">
-                  Closing thought
-                </p>
-                <p className="mt-3 font-serif text-2xl leading-relaxed sm:text-3xl">
-                  The real ambition is not to win an argument. It is to make
-                  captivity feel culturally obsolete because the alternative
-                  feels more thoughtful, more moving, and simply better.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/entrepreneurship"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-medium text-paper transition-colors hover:bg-white/15"
+              <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
+                <motion.section
+                  id="success"
+                  className="scroll-mt-28 rounded-[2rem] border border-[#1d5364] bg-[#071624] p-6 md:p-8"
+                  {...motionProps}
                 >
-                  Back to ventures
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#7dd4d8] px-5 py-3 text-sm font-medium text-[#0c1727] transition-colors hover:bg-[#92dde0]"
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                    What success looks like
+                  </p>
+                  <h2 className="mt-3 font-serif text-3xl leading-tight text-white">
+                    The project has to leave evidence behind.
+                  </h2>
+                  <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#c6d7dc]">
+                    {metrics.map((metric) => (
+                      <li key={metric} className="flex gap-3">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#7dd4d8]" />
+                        <span>{metric}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.section>
+
+                <motion.section
+                  className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 md:p-8"
+                  {...motionProps}
                 >
-                  Talk to me about it
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                    The guardrails
+                  </p>
+                  <h2 className="mt-3 font-serif text-3xl leading-tight text-white">
+                    Principles for staying honest
+                  </h2>
+                  <div className="mt-6 grid gap-2">
+                    {guardrails.map((item) => (
+                      <p
+                        key={item}
+                        className="rounded-2xl border border-white/10 bg-[#071624]/80 px-4 py-3 text-sm text-[#d4e2e6]"
+                      >
+                        {item}
+                      </p>
+                    ))}
+                  </div>
+                </motion.section>
               </div>
+
+              <motion.section
+                className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(12,31,50,0.92),rgba(5,11,20,0.98))] p-6 md:p-8"
+                {...motionProps}
+              >
+                <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                      What could go wrong
+                    </p>
+                    <h2 className="mt-3 font-serif text-3xl leading-tight text-white">
+                      The weak version only protests captivity.
+                    </h2>
+                    <p className="mt-5 text-base leading-relaxed text-[#c2d4d9]">
+                      The weakest version of this project only protests
+                      captivity. The version I want to build must make captivity
+                      feel obsolete.
+                    </p>
+                  </div>
+                  <ul className="grid gap-3 text-sm leading-relaxed text-[#c6d7dc]">
+                    {risks.map((risk) => (
+                      <li
+                        key={risk}
+                        className="rounded-2xl border border-white/10 bg-white/[0.035] p-4"
+                      >
+                        {risk}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.section>
+
+              <motion.section
+                className="relative overflow-hidden rounded-[2rem] border border-[#1d5364] bg-[#061321] p-6 md:p-8"
+                {...motionProps}
+              >
+                <ClosingOcean reduceMotion={Boolean(reduceMotion)} />
+                <div className="relative max-w-2xl">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7dd4d8]">
+                    Closing
+                  </p>
+                  <h2 className="mt-3 font-serif text-4xl leading-tight text-white md:text-5xl">
+                    Not just to protest captivity.
+                  </h2>
+                  <p className="mt-3 font-serif text-3xl leading-tight text-[#8ee4e8] md:text-4xl">
+                    To make captivity feel obsolete.
+                  </p>
+                  <p className="mt-6 text-base leading-relaxed text-[#c2d4d9]">
+                    The real ambition is not to win an argument. It is to make a
+                    future where children can feel awe for whales and dolphins
+                    without learning that awe requires possession.
+                  </p>
+                  <p className="mt-4 text-base leading-relaxed text-[#d8e8eb]">
+                    The goal is not just to protest captivity. It is to make
+                    captivity feel obsolete.
+                  </p>
+                  <div className="mt-8 flex flex-wrap gap-3">
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 rounded-full bg-[#8ee4e8] px-5 py-3 text-sm font-semibold text-[#061321] transition hover:bg-white"
+                    >
+                      Contact me
+                      <MessageCircle className="h-4 w-4" />
+                    </Link>
+                    <a
+                      href="#roadmap"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-5 py-3 text-sm font-medium text-white transition hover:border-[#8ee4e8]/70"
+                    >
+                      View roadmap
+                    </a>
+                    <Link
+                      href="/entrepreneurship"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-5 py-3 text-sm font-medium text-white transition hover:border-[#8ee4e8]/70"
+                    >
+                      Back to initiatives
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.section>
             </div>
-          </section>
+          </div>
         </div>
       </div>
     </PageTransition>
   );
 }
 
-function FeelingVisual({
-  kind
-}: {
-  kind: (typeof feelingCards)[number]["kind"];
-}) {
-  if (kind === "horizon") {
-    return (
-      <div className="relative h-full w-full">
-        <div className="absolute left-0 right-0 top-1/2 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
-        <div className="absolute left-[22%] top-[44%] h-14 w-14 rounded-full border border-[#5aa8b8]/20 blur-[1px]" />
-      </div>
-    );
-  }
+function Hero({ reduceMotion }: { reduceMotion: boolean }) {
+  return (
+    <section className="relative min-h-[690px] overflow-hidden rounded-[2.2rem] border border-white/10 bg-[#071624] px-6 py-8 shadow-[0_24px_90px_rgba(0,0,0,0.38)] md:px-10 md:py-10">
+      <HeroOcean reduceMotion={reduceMotion} />
+      <div className="relative z-10 flex min-h-[610px] flex-col justify-between">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#8ee4e8]">
+            A prototype for the post-captivity marine park
+          </p>
+          <h1 className="mt-5 max-w-3xl font-serif text-5xl leading-[0.98] text-white sm:text-6xl md:text-7xl">
+            Ocean Without Bars
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#d5e6ea] md:text-xl">
+            For a century, marine parks taught us that wonder requires
+            captivity. Ocean Without Bars is my attempt to prove the opposite: a
+            portable experience that lets people encounter whales and dolphins
+            through sound, scale, story, and interaction instead of live-animal
+            performance.
+          </p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#b7ccd2]">
+            Ocean Without Bars is a prototype for the post-captivity marine
+            park: a portable experience that gives audiences the wonder of
+            whales and dolphins without live animal captivity.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="#experience"
+              className="inline-flex items-center gap-2 rounded-full bg-[#8ee4e8] px-5 py-3 text-sm font-semibold text-[#061321] transition hover:bg-white"
+            >
+              See the experience
+            </a>
+            <a
+              href="#roadmap"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-medium text-white backdrop-blur transition hover:border-[#8ee4e8]/70"
+            >
+              Read the plan
+            </a>
+          </div>
+        </div>
 
-  if (kind === "sound") {
+        <p className="mt-10 max-w-sm border-l border-[#8ee4e8]/70 pl-4 font-serif text-2xl italic leading-snug text-white">
+          Wonder should not require captivity.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function CompareCard({
+  title,
+  items,
+  muted
+}: {
+  title: string;
+  items: string[];
+  muted?: boolean;
+}) {
+  return (
+    <article
+      className={`rounded-[1.5rem] border p-5 ${
+        muted
+          ? "border-white/10 bg-white/[0.035]"
+          : "border-[#7dd4d8]/30 bg-[#7dd4d8]/10"
+      }`}
+    >
+      <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#8ee4e8]">
+        {title}
+      </h3>
+      <ul className="mt-4 space-y-3 text-sm leading-relaxed text-[#d4e2e6]">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
+function HeroOcean({ reduceMotion }: { reduceMotion: boolean }) {
+  return (
+    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_18%,rgba(125,212,216,0.18),transparent_28%),linear-gradient(180deg,rgba(16,52,79,0.76)_0%,rgba(6,19,33,0.92)_56%,rgba(4,8,15,0.98)_100%)]" />
+      <motion.div
+        className="absolute -top-28 left-[8%] h-[620px] w-40 rotate-12 bg-[linear-gradient(180deg,rgba(174,232,238,0.28),transparent)] blur-2xl"
+        animate={reduceMotion ? undefined : { x: [0, 18, 0], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute -top-24 right-[18%] h-[560px] w-32 rotate-[18deg] bg-[linear-gradient(180deg,rgba(126,213,216,0.18),transparent)] blur-2xl"
+        animate={reduceMotion ? undefined : { y: [0, 24, 0], opacity: [0.35, 0.65, 0.35] }}
+        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.svg
+        className="absolute bottom-[18%] left-[6%] w-[88%] max-w-[820px] text-[#020812]/75"
+        viewBox="0 0 900 220"
+        role="img"
+        aria-label="Abstract whale silhouette moving through open ocean"
+        animate={reduceMotion ? undefined : { x: ["-4%", "7%", "-4%"], y: [0, -8, 0] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <path
+          fill="currentColor"
+          d="M114 123c61-48 152-74 271-78 142-5 249 30 322 104 28-19 58-42 90-68 11-9 28 1 25 15-6 30-21 55-44 76 24 18 42 43 54 75 5 14-11 27-24 19-38-22-73-42-105-60-85 37-186 50-303 39-119-11-214-44-286-99-19-14-19-9 0-23Z"
+        />
+      </motion.svg>
+      <div className="absolute inset-x-0 bottom-0 h-36 bg-[linear-gradient(180deg,transparent,#071624)]" />
+    </div>
+  );
+}
+
+function ExperienceVisual({
+  kind,
+  reduceMotion
+}: {
+  kind: (typeof experiencePieces)[number]["visual"];
+  reduceMotion: boolean;
+}) {
+  if (kind === "waves") {
     return (
-      <div className="relative h-24 w-24">
-        {[20, 40, 60, 80].map((size, index) => (
+      <div className="absolute right-4 top-4 h-28 w-28 opacity-55" aria-hidden="true">
+        {[42, 70, 98].map((size, index) => (
           <motion.span
             key={size}
-            className="absolute left-1/2 top-1/2 rounded-full border border-[#5aa8b8]/40"
-            style={{
-              width: size,
-              height: size,
-              transform: "translate(-50%, -50%)",
-              opacity: 1 - index * 0.18
-            }}
-            animate={{ scale: [0.92, 1.06, 0.92], opacity: [0.45, 0.9, 0.45] }}
+            className="absolute right-0 top-0 rounded-full border border-[#8ee4e8]/35"
+            style={{ height: size, width: size }}
+            animate={reduceMotion ? undefined : { scale: [0.96, 1.08, 0.96], opacity: [0.35, 0.8, 0.35] }}
             transition={{
-              duration: 3.2,
-              ease: "easeInOut",
+              duration: 4,
               repeat: Infinity,
-              delay: index * 0.22
+              ease: "easeInOut",
+              delay: index * 0.28
             }}
           />
         ))}
@@ -871,20 +818,81 @@ function FeelingVisual({
     );
   }
 
-  if (kind === "social") {
+  if (kind === "frame") {
     return (
-      <div className="relative h-20 w-full">
-        <span className="absolute left-[28%] top-1/2 h-2.5 w-2.5 rounded-full bg-[#5aa8b8]" />
-        <span className="absolute left-[36%] top-[48%] h-px w-16 bg-gradient-to-r from-[#5aa8b8]/30 to-transparent" />
-        <span className="absolute right-[22%] top-[40%] h-1.5 w-1.5 rounded-full bg-[#5aa8b8]/40" />
+      <div className="absolute inset-5 opacity-40" aria-hidden="true">
+        <motion.div
+          className="h-full w-full rounded-2xl border border-[#8ee4e8]/50"
+          animate={reduceMotion ? undefined : { scale: [1, 0.82, 1] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
     );
   }
 
   return (
-    <div className="relative h-full w-full">
-      <span className="absolute bottom-[22%] left-1/2 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-white/60" />
-      <span className="absolute inset-x-[25%] bottom-[23%] h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+    <div className="absolute right-5 top-5 space-y-2 opacity-40" aria-hidden="true">
+      {[72, 96, 54].map((width) => (
+        <span
+          key={width}
+          className="block h-1 rounded-full bg-[#8ee4e8]/60"
+          style={{ width }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function EvidenceMapVisual() {
+  return (
+    <svg
+      className="absolute inset-0 h-full w-full opacity-70"
+      viewBox="0 0 520 360"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="routeGradient" x1="0" x2="1">
+          <stop offset="0%" stopColor="#8ee4e8" stopOpacity="0.12" />
+          <stop offset="50%" stopColor="#8ee4e8" stopOpacity="0.74" />
+          <stop offset="100%" stopColor="#8ee4e8" stopOpacity="0.12" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M70 95 C150 45 230 150 308 104 S410 72 470 130"
+        fill="none"
+        stroke="url(#routeGradient)"
+        strokeWidth="2"
+      />
+      <path
+        d="M92 250 C178 196 258 262 334 210 S438 190 486 260"
+        fill="none"
+        stroke="url(#routeGradient)"
+        strokeWidth="2"
+      />
+      {[70, 180, 308, 470, 92, 258, 334, 486].map((x, index) => (
+        <circle
+          key={`${x}-${index}`}
+          cx={x}
+          cy={index < 4 ? [95, 78, 104, 130][index] : [250, 232, 210, 260][index - 4]}
+          r={index % 3 === 0 ? 5 : 3.5}
+          fill="#8ee4e8"
+          opacity={index % 3 === 0 ? 0.9 : 0.55}
+        />
+      ))}
+    </svg>
+  );
+}
+
+function ClosingOcean({ reduceMotion }: { reduceMotion: boolean }) {
+  return (
+    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_36%,rgba(125,212,216,0.18),transparent_28%)]" />
+      <motion.div
+        className="absolute bottom-16 right-8 h-24 w-64 rounded-[100%] bg-[#020812]/70"
+        animate={reduceMotion ? undefined : { x: [20, -20, 20], opacity: [0.55, 0.82, 0.55] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,#061321)]" />
     </div>
   );
 }

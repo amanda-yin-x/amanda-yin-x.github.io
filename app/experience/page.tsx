@@ -22,6 +22,8 @@ export const metadata: Metadata = {
 const preferredOrderByFilter: Partial<Record<ExperienceCategory, string[]>> = {
   all: [
     "boosted-2026",
+    "marl-2026",
+    "taisi-2026",
     "microsoft-s25",
     "stackadapt-w25",
     "dsi-2025",
@@ -36,7 +38,7 @@ const preferredOrderByFilter: Partial<Record<ExperienceCategory, string[]>> = {
     "microsoft-s24",
     "scotiabank-w24"
   ],
-  research: ["dsi-2025", "scotiabank-w24"],
+  research: ["marl-2026", "taisi-2026", "dsi-2025", "scotiabank-w24"],
   teaching: ["teaching-w24"]
 };
 
