@@ -132,8 +132,8 @@ export function SkillsPageContent() {
       <div className="mt-6 space-y-16">
         <SectionHeader
           eyebrow="Skills"
-          title="The stack I reach for when I'm making stuff"
-          description="good stuff :D"
+          title="Tools I reach for (and occasionally fight)"
+          description="Mostly good stuff :D"
         />
 
         {/* Core Stack */}

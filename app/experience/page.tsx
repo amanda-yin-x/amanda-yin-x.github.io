@@ -81,8 +81,8 @@ export default function ExperiencePage() {
         <div className="mt-4 space-y-8">
           <SectionHeader
             eyebrow="Experience"
-            title="A timeline of side quests, plot twists, and places that taught me things"
-            description="A few teams, a few rabbit holes, and a surprising amount of learning packed into one scroll."
+            title="My mildly chaotic technical journey"
+            description="Code, research, and a few useful plot twists."
           />
 
           <Tabs defaultValue="all">

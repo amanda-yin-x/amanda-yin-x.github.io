@@ -79,8 +79,8 @@ export function VenturesPageContent() {
       <div className="mt-4 space-y-12">
         <SectionHeader
           eyebrow="Ventures"
-          title="Things I'm playing around with"
-          description="A mix of side quests, experiments, and ideas that got interesting enough to earn their own page."
+          title="Stuff I keep trying to build"
+          description="Some worked. Some failed. I'm still at it."
         />
 
         <section className="space-y-6">
