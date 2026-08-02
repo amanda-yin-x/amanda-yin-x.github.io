@@ -4,9 +4,31 @@ import Link from "next/link";
 import { PageTransition } from "@/components/page-transition";
 import { SectionHeader } from "@/components/section-header";
 import { FeaturedBuildCard } from "@/components/featured-build-card";
-import { FileText, FlaskConical, Sparkles, ArrowUpRight } from "lucide-react";
+import { FileText, FlaskConical, Sparkles, ArrowUpRight, Heart } from "lucide-react";
 
 const featuredBuilds = [
+  {
+    name: "Niki",
+    tagline: "Research-grounded clarity for mixed signals and relationships",
+    description:
+      "Niki is a personal coach that helps people capture moments, notice recurring signals over time, and reflect without diagnosing anyone—or treating a feeling as proof. Backed by research, made for real people.",
+    link: "/contact",
+    external: false,
+    icon: Heart,
+    gradient: "from-[#e96f8f] to-[#f4a7b8]",
+    surface: "from-[#fff4f7] via-white to-[#ffe7ee]",
+    border: "border-[#f0c8d4]",
+    statusClass: "border-[#f0c8d4] bg-[#fff0f4] text-[#a24f68]",
+    taglineClass: "text-[#a24f68]",
+    status: "Coming soon",
+    meta: "Founder · Self-employed · Jul 2026 – Present",
+    note:
+      "Looking for co-founder(s) with cognitive science or psychology experience, a technical background, and genuine care for this field—so we can apply to YC together. DM, email, or book a chat.",
+    ctaLabel: "Build Niki with me",
+    secondaryLink:
+      "mailto:yixin.yin@mail.utoronto.ca?subject=Niki%20co-founder%20conversation",
+    secondaryLabel: "Email me"
+  },
   {
     name: "Telo",
     tagline: "AI-powered LaTeX CVs for STEM students",
@@ -74,7 +96,7 @@ export function VenturesPageContent() {
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2">
             {featuredBuilds.map((build, index) => (
               <FeaturedBuildCard key={build.name} {...build} index={index} />
             ))}

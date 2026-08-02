@@ -306,12 +306,12 @@ export default function BoostedAiExperiencePage() {
                 <ArrowUpRight className="h-4 w-4" />
               </a>
               <a
-                href="/CV_Amanda_Yin_25.pdf"
+                href="/CV_Amanda_Yin_2026.pdf"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-borderDark bg-white px-4 py-2 text-sm font-medium text-ink transition-colors hover:text-tiffany"
               >
-                Updated Resume
+                2026 CV
                 <ArrowUpRight className="h-4 w-4" />
               </a>
               <a

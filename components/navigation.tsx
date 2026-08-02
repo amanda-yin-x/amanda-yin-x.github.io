@@ -82,15 +82,15 @@ export function Navigation() {
 
           <div className="flex items-center gap-3">
             {/* CV Download button - always visible */}
-            <Link
-              href="/CV_Amanda_Yin_25.pdf"
+            <a
+              href="/CV_Amanda_Yin_2026.pdf"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-sm border border-borderDark bg-paper px-3 py-2 text-sm font-medium text-ink transition-all hover:border-tiffany hover:text-tiffany"
             >
               <Download className="h-4 w-4" />
               <span className="hidden sm:inline">CV</span>
-            </Link>
+            </a>
 
             {/* Hamburger menu button - always visible */}
             <div className="relative">

@@ -16,6 +16,12 @@ type Props = {
   statusClass: string;
   taglineClass: string;
   status: string;
+  meta?: string;
+  note?: string;
+  ctaLabel?: string;
+  external?: boolean;
+  secondaryLink?: string;
+  secondaryLabel?: string;
   index: number;
 };
 
@@ -31,6 +37,12 @@ export function FeaturedBuildCard({
   statusClass,
   taglineClass,
   status,
+  meta,
+  note,
+  ctaLabel,
+  external = true,
+  secondaryLink,
+  secondaryLabel,
   index
 }: Props) {
   return (
@@ -65,19 +77,41 @@ export function FeaturedBuildCard({
       {/* Content */}
       <div className="relative space-y-3">
         <div>
+          {meta ? (
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-inkWash">
+              {meta}
+            </p>
+          ) : null}
           <h3 className="font-serif text-xl font-medium text-ink">{name}</h3>
           <p className={`text-sm ${taglineClass}`}>{tagline}</p>
         </div>
 
         <p className="text-sm leading-relaxed text-inkLight">{description}</p>
 
+        {note ? (
+          <p className="rounded-2xl border border-white/80 bg-white/70 p-3 text-xs leading-relaxed text-inkLight shadow-sm">
+            {note}
+          </p>
+        ) : null}
+
         {/* CTA */}
-        <Button asChild variant="outline" size="sm" className="group/btn mt-2 rounded-full bg-white/70">
-          <a href={link} target="_blank" rel="noreferrer">
-            Visit project
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-          </a>
-        </Button>
+        <div className="flex flex-wrap gap-2 pt-2">
+          <Button asChild variant="outline" size="sm" className="group/btn rounded-full bg-white/70">
+            <a
+              href={link}
+              target={external ? "_blank" : undefined}
+              rel={external ? "noreferrer" : undefined}
+            >
+              {ctaLabel ?? "Visit project"}
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+            </a>
+          </Button>
+          {secondaryLink ? (
+            <Button asChild variant="ghost" size="sm" className="rounded-full">
+              <a href={secondaryLink}>{secondaryLabel ?? "Email me"}</a>
+            </Button>
+          ) : null}
+        </div>
       </div>
 
       {/* Decorative corner */}

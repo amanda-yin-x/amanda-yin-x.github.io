@@ -24,12 +24,12 @@ const hand = Caveat({
 export const metadata: Metadata = {
   title: "Amanda Yin",
   description:
-    "Portfolio of Amanda Yin - software engineer, researcher, builder, and side quest collector.",
+    "Portfolio of Amanda Yin - AI security researcher, software engineer, builder, and side quest collector.",
   metadataBase: new URL("https://amanda-yin-x.github.io"),
   openGraph: {
     title: "Amanda Yin",
     description:
-      `${siteTagline} Software, ventures, research notes, and the things Amanda Yin is currently making.`,
+      `${siteTagline} AI security research, software, ventures, and the things Amanda Yin is currently making.`,
     type: "website",
     url: "https://amanda-yin.com",
     images: [{ url: "/profile.svg", width: 1200, height: 630, alt: "Amanda Yin" }]

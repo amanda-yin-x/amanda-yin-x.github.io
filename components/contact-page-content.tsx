@@ -35,7 +35,7 @@ export function ContactPageContent() {
     {
       icon: FileText,
       label: "CV",
-      href: "/CV_Amanda_Yin_25.pdf",
+      href: "/CV_Amanda_Yin_2026.pdf",
       color: "bg-tiffanyMuted text-tiffany"
     }
   ];

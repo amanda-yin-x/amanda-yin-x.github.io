@@ -257,6 +257,8 @@ const fallbackThemes: CardTheme[] = [
 
 const cardThemes: Record<string, CardTheme> = {
   "boosted-2026": fallbackThemes[0],
+  "apart-research-2026": fallbackThemes[0],
+  "pac-bayes-2026": fallbackThemes[3],
   "marl-2026": fallbackThemes[1],
   "taisi-2026": fallbackThemes[0],
   "microsoft-s25": fallbackThemes[1],

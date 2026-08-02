@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Mail, Linkedin, ArrowRight, MapPin, Calendar } from "lucide-react";
+import { Mail, Linkedin, ArrowRight, MapPin, ShieldCheck } from "lucide-react";
 
 const PHOTO_ROTATION_MS = 10000;
 const PHOTO_SESSION_KEY = "hero-gallery-start";
 const GREETING = "Dear visitor,";
 const introRoles = [
+  "AI security researcher",
   "software engineer",
   "side hustle collector",
   "builder dreamer",
@@ -268,9 +269,11 @@ export function Hero() {
               className="space-y-4 text-inkLight leading-relaxed"
             >
               <p>
-                I&apos;m a software engineer who believes technology should feel{" "}
-                <span className="text-ink font-medium">human</span>. Currently
-                wrapping up my senior year studying{" "}
+                I&apos;m currently an AI security researcher and software engineer
+                who believes technology should feel{" "}
+                <span className="text-ink font-medium">human</span>. My work
+                explores formal agent permissions and trustworthy safety
+                monitors while I wrap up my senior year studying{" "}
                 <a
                   href="https://utsc.calendar.utoronto.ca/section/Computer-Science"
                   target="_blank"
@@ -321,7 +324,7 @@ export function Hero() {
                     "border-[#b9e3dc] bg-[#e8f8f5] text-[#0e6f6d]"
                 },
                 {
-                  label: "LLM Research",
+                  label: "AI Security Research",
                   className:
                     "border-[#ffd8b3] bg-[#fff3e6] text-[#b05a1f]"
                 },
@@ -345,7 +348,7 @@ export function Hero() {
 
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <a
-                  href="/CV_Amanda_Yin_25.pdf"
+                  href="/CV_Amanda_Yin_2026.pdf"
                   target="_blank"
                   rel="noreferrer"
                   className="group inline-flex items-center gap-2 rounded-sm bg-ink px-5 py-3 text-sm font-medium text-paper transition-all hover:bg-inkLight"
@@ -464,11 +467,11 @@ export function Hero() {
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="paper-card rounded-sm px-4 py-3">
                 <div className="flex items-center gap-2 text-inkFaded">
-                  <Calendar className="h-4 w-4" />
+                  <ShieldCheck className="h-4 w-4" />
                   <span className="text-xs">Currently</span>
                 </div>
                 <p className="mt-1 text-sm font-medium text-ink">
-                  Boosted.ai, Winter 2026
+                  AI security researcher
                 </p>
               </div>
               <div className="paper-card rounded-sm px-4 py-3">

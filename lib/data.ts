@@ -22,11 +22,10 @@ export const experiences: Experience[] = [
   {
     id: "boosted-2026",
     company: "Boosted.ai",
-    team: "AI for investing startup",
-    title: "Reliability Team (Infra-focused)",
+    team: "Fintech startup · Reliability Team",
+    title: "SWE Intern",
     location: "Toronto, ON",
-    timeframe: "W26",
-    status: "Current",
+    timeframe: "Jan 2026 – Apr 2026 · W26",
     categories: ["swe"],
     detailHref: "/experience/boosted-ai",
     highlights: [
@@ -37,6 +36,43 @@ export const experiences: Experience[] = [
     ],
     tags: ["Recommender", "Agent evals", "gRPC", "Infra"],
     order: 202604
+  },
+  {
+    id: "apart-research-2026",
+    company: "Apart Research",
+    team:
+      "Secure Program Synthesis Fellowship · Mentored by Max von Hippel (Anduril Industries, Benchify)",
+    title: "Research Fellow",
+    location: "Contract Part-time",
+    timeframe: "Jun 2026 – Present",
+    status: "Current",
+    categories: ["research"],
+    highlights: [
+      "Designing a formal agent-permission system that replaces fragile LLM-as-judge checks with enforceable permissions and runtime monitoring.",
+      "Writing policies in a high-level DSL, compiling them to monitorable LTLf formulas, and machine-checking soundness in Lean 4.",
+      "Combining Claude Code-style per-tool prompts with AWS IAM-style policy expressiveness, provenance constraints, and information-flow labels.",
+      "Evaluating on AgentDojo and AI-control benchmarks while working toward an open-source implementation and a short ETAPS/TACAS 2027 paper."
+    ],
+    tags: ["AI security", "Runtime monitoring", "LTLf", "Lean 4", "Program synthesis"],
+    order: 20260630
+  },
+  {
+    id: "pac-bayes-2026",
+    company: "University of Toronto",
+    team: "Department of Computer Science · Tim G. J. Rudner Research Group",
+    title: "Student Researcher · AI Trustworthiness & Safety",
+    location: "Toronto, ON · Contract Part-time",
+    timeframe: "May 2026 – Present",
+    status: "Current",
+    categories: ["research"],
+    highlights: [
+      "Researching AI trustworthiness and safety through uncertainty, interpretability, and non-vacuous PAC-Bayes generalization.",
+      "Built a Qwen3 + Aegis 2.0 safety-classification pipeline to compare reasoning and non-reasoning inference, prompt sensitivity, and safe-versus-unsafe recall tradeoffs.",
+      "Training compressed LoRA and LoRA-XS adapters, connecting adapter size and validation error to future PAC-Bayes guarantees.",
+      "Supervised by Prof. Tim G. J. Rudner, with Tom Lamb and Vasisht Duddu."
+    ],
+    tags: ["AI safety", "PAC-Bayes", "Qwen3", "LoRA-XS", "Interpretability"],
+    order: 20260520
   },
   {
     id: "microsoft-s25",
@@ -77,22 +113,22 @@ export const experiences: Experience[] = [
   {
     id: "marl-2026",
     company: "University of Toronto",
-    team: "Peter Marbach Research Group",
-    title: "MARL Researcher",
-    location: "Toronto, ON",
-    timeframe: "Summer 2026",
+    team: "Department of Computer Science · Peter Marbach Research Group",
+    title: "Student Researcher · MARL Theory",
+    location: "Toronto, ON · Contract Part-time",
+    timeframe: "May 2026 – Present",
     status: "Current",
     categories: ["research"],
     actionHref: "https://www.cs.toronto.edu/~marbach/WEB/research.html",
     actionLabel: "View research group",
     actionExternal: true,
     highlights: [
-      "Building theoretical foundations for multi-agent reinforcement learning systems.",
-      "Studying how agents share information, optimize collective rewards, and adapt in complex environments.",
-      "Using ideas from game theory, optimization, social network analysis, opinion dynamics, economics, and sociology."
+      "Developing theoretical foundations for multi-agent reinforcement learning using Observer-Actor Systems.",
+      "Studying how mathematical coordination models can help multiple agents share information and behave predictably.",
+      "Working under Prof. Peter Marbach, drawing on insights from sociology, opinion dynamics, economics, game theory, and social-network analysis."
     ],
-    tags: ["MARL", "Game theory", "Optimization", "Social networks", "RL"],
-    order: 202608
+    tags: ["MARL", "Observer-Actor Systems", "Game theory", "Social networks", "RL"],
+    order: 20260510
   },
   {
     id: "taisi-2026",
