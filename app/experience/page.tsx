@@ -82,7 +82,6 @@ export default function ExperiencePage() {
           <SectionHeader
             eyebrow="Experience"
             title="My mildly chaotic technical journey"
-            description="Code, research, and a few useful plot twists."
           />
 
           <Tabs defaultValue="all">
