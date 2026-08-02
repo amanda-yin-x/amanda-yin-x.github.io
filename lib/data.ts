@@ -59,7 +59,7 @@ export const experiences: Experience[] = [
   {
     id: "pac-bayes-2026",
     company: "University of Toronto",
-    team: "Department of Computer Science · Tim G. J. Rudner Research Group",
+    team: "Department of Computer Science · Supervised by Prof. Tim G. J. Rudner",
     title: "Student Researcher · AI Trustworthiness & Safety",
     location: "Toronto, ON · Contract Part-time",
     timeframe: "May 2026 – Present",
@@ -69,7 +69,7 @@ export const experiences: Experience[] = [
       "Researching AI trustworthiness and safety through uncertainty, interpretability, and non-vacuous PAC-Bayes generalization.",
       "Built a Qwen3 + Aegis 2.0 safety-classification pipeline to compare reasoning and non-reasoning inference, prompt sensitivity, and safe-versus-unsafe recall tradeoffs.",
       "Training compressed LoRA and LoRA-XS adapters, connecting adapter size and validation error to future PAC-Bayes guarantees.",
-      "Supervised by Prof. Tim G. J. Rudner, with Tom Lamb and Vasisht Duddu."
+      "Co-supervised by Tom Lamb and Vasisht Duddu."
     ],
     tags: ["AI safety", "PAC-Bayes", "Qwen3", "LoRA-XS", "Interpretability"],
     order: 20260520
@@ -113,19 +113,19 @@ export const experiences: Experience[] = [
   {
     id: "marl-2026",
     company: "University of Toronto",
-    team: "Department of Computer Science · Peter Marbach Research Group",
+    team: "Department of Computer Science · Supervised by Prof. Peter Marbach",
     title: "Student Researcher · MARL Theory",
     location: "Toronto, ON · Contract Part-time",
     timeframe: "May 2026 – Present",
     status: "Current",
     categories: ["research"],
     actionHref: "https://www.cs.toronto.edu/~marbach/WEB/research.html",
-    actionLabel: "View research group",
+    actionLabel: "View related research",
     actionExternal: true,
     highlights: [
       "Developing theoretical foundations for multi-agent reinforcement learning using Observer-Actor Systems.",
       "Studying how mathematical coordination models can help multiple agents share information and behave predictably.",
-      "Working under Prof. Peter Marbach, drawing on insights from sociology, opinion dynamics, economics, game theory, and social-network analysis."
+      "Drawing on insights from sociology, opinion dynamics, economics, game theory, and social-network analysis."
     ],
     tags: ["MARL", "Observer-Actor Systems", "Game theory", "Social networks", "RL"],
     order: 20260510
