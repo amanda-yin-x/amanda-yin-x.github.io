@@ -1,0 +1,387 @@
+.shell {
+  width: min(74rem, calc(100vw - 2rem));
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.legend {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+  padding-inline: 0.25rem;
+}
+
+.legendTitle {
+  margin: 0;
+  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+}
+
+.legendMeta,
+.hint {
+  margin: 0.2rem 0 0;
+  color: #6b6b6b;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  text-align: right;
+}
+
+.hintIcon {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.wall {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(8, minmax(0, 1fr));
+  gap: 0.4rem;
+  height: clamp(31rem, calc(100svh - 19rem), 40rem);
+  padding: 0.4rem;
+  overflow: hidden;
+  border: 1px solid rgba(26, 26, 26, 0.1);
+  border-radius: 1.15rem;
+  background: rgba(255, 253, 248, 0.9);
+  box-shadow:
+    0 18px 55px rgba(33, 27, 22, 0.1),
+    0 2px 8px rgba(33, 27, 22, 0.06);
+}
+
+.tile {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1200px;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tile:focus-visible {
+  z-index: 5;
+  outline: 2px solid #0abab5;
+  outline-offset: 3px;
+}
+
+.inner {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-style: preserve-3d;
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.front,
+.back {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 0.75rem;
+  box-shadow: 0 3px 14px rgba(26, 26, 26, 0.1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.front {
+  background: #e8e4db;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  user-select: none;
+}
+
+.frontShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 18, 16, 0.02) 55%, rgba(20, 18, 16, 0.58));
+  pointer-events: none;
+}
+
+.medium,
+.number {
+  position: absolute;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  background: rgba(26, 26, 26, 0.5);
+  color: #fffdf8;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.medium {
+  right: 0.6rem;
+  bottom: 0.55rem;
+  left: 0.6rem;
+  width: fit-content;
+  max-width: calc(100% - 1.2rem);
+  padding: 0.25rem 0.55rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.number {
+  top: 0.55rem;
+  right: 0.55rem;
+  justify-content: center;
+  min-width: 1.6rem;
+  padding-inline: 0.35rem;
+}
+
+.back {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(0.75rem, 1.7vw, 1.4rem);
+  transform: rotateY(180deg);
+  background: #fff7ef;
+}
+
+.tile[data-tone="rose"] .back {
+  background: linear-gradient(145deg, #fff1f4, #f8dce7);
+  color: #74344d;
+}
+
+.tile[data-tone="blue"] .back {
+  background: linear-gradient(145deg, #eef5fb, #dbe9f5);
+  color: #31536b;
+}
+
+.tile[data-tone="green"] .back {
+  background: linear-gradient(145deg, #eff8f3, #d9eee5);
+  color: #315e50;
+}
+
+.tile[data-tone="amber"] .back {
+  background: linear-gradient(145deg, #fff7eb, #f7e2bd);
+  color: #765128;
+}
+
+.tile[data-tone="violet"] .back {
+  background: linear-gradient(145deg, #f6f3ff, #e4def8);
+  color: #584889;
+}
+
+.backKicker {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.backTitle {
+  margin-top: 0.45rem;
+  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+  font-size: clamp(1rem, 1.75vw, 1.45rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.backNote {
+  margin-top: 0.55rem;
+  font-size: clamp(0.7rem, 1.05vw, 0.85rem);
+  line-height: 1.45;
+}
+
+.backHint {
+  margin-top: auto;
+  padding-top: 0.65rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.58;
+}
+
+.tile[data-active="true"] .inner {
+  transform: rotateY(180deg);
+}
+
+.a {
+  grid-column: 1 / 4;
+  grid-row: 1 / 6;
+}
+
+.b {
+  grid-column: 4 / 9;
+  grid-row: 1 / 4;
+}
+
+.c {
+  grid-column: 9 / 11;
+  grid-row: 1 / 5;
+}
+
+.d {
+  grid-column: 11 / 13;
+  grid-row: 1 / 5;
+}
+
+.e {
+  grid-column: 1 / 4;
+  grid-row: 6 / 9;
+}
+
+.f {
+  grid-column: 4 / 6;
+  grid-row: 4 / 9;
+}
+
+.g {
+  grid-column: 6 / 9;
+  grid-row: 4 / 9;
+}
+
+.h {
+  grid-column: 9 / 11;
+  grid-row: 5 / 9;
+}
+
+.i {
+  grid-column: 11 / 13;
+  grid-row: 5 / 9;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover {
+    z-index: 4;
+  }
+
+  .tile:hover .inner {
+    transform: rotateY(180deg);
+  }
+}
+
+@media (max-width: 899px) {
+  .shell {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .wall {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+    height: clamp(62rem, 135vw, 78rem);
+  }
+
+  .a {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .b {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .c {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .d {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .e {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .f {
+    grid-column: 1;
+    grid-row: 4 / span 2;
+  }
+
+  .g {
+    grid-column: 2;
+    grid-row: 4 / span 2;
+  }
+
+  .h {
+    grid-column: 1;
+    grid-row: 6;
+  }
+
+  .i {
+    grid-column: 2;
+    grid-row: 6;
+  }
+}
+
+@media (max-width: 540px) {
+  .legend {
+    align-items: flex-start;
+  }
+
+  .hint {
+    max-width: 8.5rem;
+    line-height: 1.4;
+  }
+
+  .wall {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .tile {
+    flex: none;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+  }
+
+  .b,
+  .e {
+    aspect-ratio: 4 / 3;
+  }
+
+  .backTitle {
+    font-size: 1.55rem;
+  }
+
+  .backNote {
+    font-size: 0.92rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inner,
+  .image {
+    transition: none;
+  }
+}
